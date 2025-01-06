@@ -2,6 +2,8 @@
 using Application.Interfaces.Auth;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace NMHRMSAPI.Controllers
 {
@@ -37,6 +39,7 @@ namespace NMHRMSAPI.Controllers
             }
             catch (Exception ex)
             {
+                Trace.TraceError($"{ControllerContext.ActionDescriptor.ActionName} - {JsonConvert.SerializeObject(loginDto)}, ---Error - {ex.Message} ---> Additional Info - {(ex.InnerException != null ? ex.InnerException.Message : null)}");
                 throw;
             }
         }

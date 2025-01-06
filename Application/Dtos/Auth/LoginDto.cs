@@ -8,6 +8,6 @@ namespace Application.Dtos.Auth
 {
     public class LoginDto
     {
-        public string PhoneNmber { get; set; }
+        public string? PhoneNmber { get; set; }
     }
 }
