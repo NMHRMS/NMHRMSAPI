@@ -1,6 +1,6 @@
 ﻿using Application.Dtos.Auth;
 using Application.Interfaces.Auth;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -28,6 +28,7 @@ namespace NMHRMSAPI.Controllers
             this.authService = authService;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("Login")]
         public IActionResult Login(LoginDto loginDto)
