@@ -1,4 +1,5 @@
 using Application.AppStart;
+using Application.Mapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -11,6 +12,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 
 var secretKey = configration.GetSection("AppSettings:JwtSecret").Value;
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
