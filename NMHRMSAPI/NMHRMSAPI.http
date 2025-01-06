@@ -1,6 +1,0 @@
-@NMHRMSAPI_HostAddress = http://localhost:5183
-
-GET {{NMHRMSAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
