@@ -2,6 +2,7 @@
 using Application.Interfaces.Auth;
 using Domain.Models;
 using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +25,7 @@ namespace Application.Services.Auth
 
         public object GetUser(LoginDto loginDto)
         {
-            return repository.Get<Country>().ToList();
-            
+            return repository.Get<Country>().AsQueryable().AsNoTracking().ToList();
         }
     }
 }
