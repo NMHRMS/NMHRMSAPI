@@ -30,17 +30,17 @@ namespace NMHRMSAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("Login")]
-        public IActionResult Login(LoginDto loginDto)
+        [Route("SignUp")]
+        public IActionResult SignUp(SignUpDto SignUpDto)
         {
             try
             {
-                var result = authService.GetUser(loginDto);
-                return Ok(result);
+                authService.SignUp(SignUpDto);
+                return Ok();
             }
             catch (Exception ex)
             {
-                Trace.TraceError($"{ControllerContext.ActionDescriptor.ActionName} - {JsonConvert.SerializeObject(loginDto)}, ---Error - {ex.Message} ---> Additional Info - {(ex.InnerException != null ? ex.InnerException.Message : null)}");
+                Trace.TraceError($"{ControllerContext.ActionDescriptor.ActionName} - {JsonConvert.SerializeObject(SignUpDto)}, ---Error - {ex.Message} ---> Additional Info - {(ex.InnerException != null ? ex.InnerException.Message : null)}");
                 throw;
             }
         }

@@ -9,6 +9,6 @@ namespace Application.Interfaces.Auth
 {
     public interface IAuthService
     {
-        object GetUser(LoginDto loginDto);
+        void SignUp(SignUpDto signUpDto);
     }
 }

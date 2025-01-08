@@ -17,6 +17,7 @@ namespace Application.AppStart
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<IDbFactory, DbFactory>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IPasswordHelper, PasswordHelper>();
             //services.AddDbContext<HrmsDatabaseContext>(ServiceLifetime.Transient);
             return services;
         }

@@ -37,7 +37,7 @@ public partial class Company
 
     public string FinancialYearFlag { get; set; } = null!;
 
-    public string IsActive { get; set; } = null!;
+    public bool IsActive { get; set; }
 
     public string? Vision { get; set; }
 
