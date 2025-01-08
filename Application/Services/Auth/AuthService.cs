@@ -1,5 +1,7 @@
 ﻿using Application.Dtos.Auth;
 using Application.Interfaces.Auth;
+using Domain.Models;
+using Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,15 +15,17 @@ namespace Application.Services.Auth
     /// </summary>
     public class AuthService : IAuthService
     {
-        /// <summary>
-        /// Method to check valid user exist or not if yes, returns user detaails
-        /// </summary>
-        /// <param name="loginDto"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        private readonly IRepository repository;
+
+        public AuthService(IRepository repository)
+        {
+            this.repository = repository;
+        }
+
         public object GetUser(LoginDto loginDto)
         {
-            throw new NotImplementedException();
+            return repository.Get<Country>().ToList();
+            
         }
     }
 }

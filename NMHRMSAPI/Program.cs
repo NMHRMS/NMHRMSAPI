@@ -1,11 +1,13 @@
 using Application.AppStart;
 using Application.Mapper;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-var configration = builder.Configuration;
+var configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -13,9 +15,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<HrmsDatabaseContext>(options => options.UseSqlServer(configuration.GetConnectionString("Sql")));
+
 builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
 
-var secretKey = configration.GetSection("AppSettings:JwtSecret").Value;
+var secretKey = configuration.GetSection("AppSettings:JwtSecret").Value;
 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(opt =>
