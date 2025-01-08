@@ -29,6 +29,11 @@ namespace Application.Services.Auth
         #region Puublic Methods
         public void SignUp(SignUpDto signUpDto)
         {
+            var isDuplicate = CheckDuplicate(signUpDto);
+
+            if (isDuplicate)
+                throw new ArgumentException("Company Already Exists");
+
             var currentDate = DateTime.Now;
             var companyDetails = mapper.Map<Company>(signUpDto);
             companyDetails.CountryId = 4;
@@ -57,7 +62,10 @@ namespace Application.Services.Auth
         #endregion
 
         #region Private Methods
-
+        private static bool CheckDuplicate(SignUpDto signUpDto)
+        {
+            return false;
+        }
         #endregion
     }
 }
