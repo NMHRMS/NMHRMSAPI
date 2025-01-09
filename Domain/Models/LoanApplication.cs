@@ -50,4 +50,12 @@ public partial class LoanApplication
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual Employee Employee { get; set; } = null!;
+
+    public virtual ICollection<LoanDetail> LoanDetails { get; set; } = new List<LoanDetail>();
+
+    public virtual LoanType LoanType { get; set; } = null!;
 }

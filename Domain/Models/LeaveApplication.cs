@@ -40,4 +40,14 @@ public partial class LeaveApplication
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual Employee Employee { get; set; } = null!;
+
+    public virtual ICollection<LeaveApplicationDetail> LeaveApplicationDetails { get; set; } = new List<LeaveApplicationDetail>();
+
+    public virtual LeaveType LeaveType { get; set; } = null!;
+
+    public virtual Year Year { get; set; } = null!;
 }

@@ -29,8 +29,6 @@ public partial class State
 
     public virtual ICollection<City> Cities { get; set; } = new List<City>();
 
-    public virtual Company Company { get; set; } = null!;
-
     public virtual Country? Country { get; set; }
 
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();

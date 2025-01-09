@@ -60,4 +60,8 @@ public partial class Statutory
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual ICollection<StatutorySlab> StatutorySlabs { get; set; } = new List<StatutorySlab>();
 }

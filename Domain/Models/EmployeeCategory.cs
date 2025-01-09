@@ -26,4 +26,6 @@ public partial class EmployeeCategory
     public virtual Company Company { get; set; } = null!;
 
     public virtual ICollection<EmployeeProfile> EmployeeProfiles { get; set; } = new List<EmployeeProfile>();
+
+    public virtual ICollection<OvertimePolicy> OvertimePolicies { get; set; } = new List<OvertimePolicy>();
 }

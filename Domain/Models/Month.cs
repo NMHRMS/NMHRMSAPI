@@ -37,9 +37,23 @@ public partial class Month
 
     public DateTime? UpdateDate { get; set; }
 
+    public virtual ICollection<AssetAllotment> AssetAllotments { get; set; } = new List<AssetAllotment>();
+
     public virtual ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
 
     public virtual Company Company { get; set; } = null!;
+
+    public virtual ICollection<ExpenseClaim> ExpenseClaims { get; set; } = new List<ExpenseClaim>();
+
+    public virtual ICollection<LoanDetail> LoanDetails { get; set; } = new List<LoanDetail>();
+
+    public virtual ICollection<OvertimeApplication> OvertimeApplications { get; set; } = new List<OvertimeApplication>();
+
+    public virtual ICollection<Payroll> Payrolls { get; set; } = new List<Payroll>();
+
+    public virtual ICollection<ResignationApplication> ResignationApplications { get; set; } = new List<ResignationApplication>();
+
+    public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
 
     public virtual Year Year { get; set; } = null!;
 }

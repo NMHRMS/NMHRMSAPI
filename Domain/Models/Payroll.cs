@@ -46,4 +46,18 @@ public partial class Payroll
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual Employee Employee { get; set; } = null!;
+
+    public virtual Month Month { get; set; } = null!;
+
+    public virtual ICollection<PayrollDeduction> PayrollDeductions { get; set; } = new List<PayrollDeduction>();
+
+    public virtual ICollection<PayrollEarning> PayrollEarnings { get; set; } = new List<PayrollEarning>();
+
+    public virtual ICollection<PayrollReimbursement> PayrollReimbursements { get; set; } = new List<PayrollReimbursement>();
+
+    public virtual Year Year { get; set; } = null!;
 }

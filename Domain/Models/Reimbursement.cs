@@ -30,4 +30,12 @@ public partial class Reimbursement
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual ICollection<PayrollReimbursement> PayrollReimbursements { get; set; } = new List<PayrollReimbursement>();
+
+    public virtual ReimbursementType ReimbursementTypeNavigation { get; set; } = null!;
+
+    public virtual ICollection<SalaryReimbursement> SalaryReimbursements { get; set; } = new List<SalaryReimbursement>();
 }

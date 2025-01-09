@@ -28,4 +28,10 @@ public partial class PayrollEarning
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual Earning Earning { get; set; } = null!;
+
+    public virtual Payroll Payroll { get; set; } = null!;
 }

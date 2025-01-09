@@ -32,4 +32,8 @@ public partial class DeductionType
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual ICollection<Deduction> Deductions { get; set; } = new List<Deduction>();
 }

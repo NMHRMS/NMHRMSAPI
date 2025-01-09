@@ -30,4 +30,12 @@ public partial class LoanDetail
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual LoanApplication Application { get; set; } = null!;
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual Month Month { get; set; } = null!;
+
+    public virtual Year Year { get; set; } = null!;
 }

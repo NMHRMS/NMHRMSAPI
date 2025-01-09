@@ -24,4 +24,8 @@ public partial class TeamMember
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual Team Team { get; set; } = null!;
 }

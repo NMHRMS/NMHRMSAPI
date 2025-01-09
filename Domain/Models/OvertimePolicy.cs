@@ -30,4 +30,8 @@ public partial class OvertimePolicy
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual EmployeeCategory Category { get; set; } = null!;
+
+    public virtual Company Company { get; set; } = null!;
 }

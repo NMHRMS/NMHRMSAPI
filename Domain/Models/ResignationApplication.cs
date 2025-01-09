@@ -44,4 +44,14 @@ public partial class ResignationApplication
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual Employee Employee { get; set; } = null!;
+
+    public virtual ExitType ExitType { get; set; } = null!;
+
+    public virtual Month Month { get; set; } = null!;
+
+    public virtual Year Year { get; set; } = null!;
 }

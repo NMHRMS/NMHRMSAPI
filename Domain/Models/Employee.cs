@@ -81,6 +81,12 @@ public partial class Employee
 
     public DateTime? UpdateDate { get; set; }
 
+    public virtual ICollection<AdvanceApplication> AdvanceApplications { get; set; } = new List<AdvanceApplication>();
+
+    public virtual ICollection<AnnouncementDetail> AnnouncementDetails { get; set; } = new List<AnnouncementDetail>();
+
+    public virtual ICollection<AssetAllotment> AssetAllotments { get; set; } = new List<AssetAllotment>();
+
     public virtual ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
 
     public virtual BloodGroup? BloodGroup { get; set; }
@@ -97,13 +103,29 @@ public partial class Employee
 
     public virtual ICollection<EmployeeQualification> EmployeeQualifications { get; set; } = new List<EmployeeQualification>();
 
+    public virtual ICollection<ExpenseClaim> ExpenseClaims { get; set; } = new List<ExpenseClaim>();
+
+    public virtual ICollection<LeaveApplication> LeaveApplications { get; set; } = new List<LeaveApplication>();
+
+    public virtual ICollection<LoanApplication> LoanApplications { get; set; } = new List<LoanApplication>();
+
+    public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+
+    public virtual ICollection<OvertimeApplication> OvertimeApplications { get; set; } = new List<OvertimeApplication>();
+
+    public virtual ICollection<Payroll> Payrolls { get; set; } = new List<Payroll>();
+
     public virtual City? PermanentCity { get; set; }
 
     public virtual Country? PermanentCountry { get; set; }
 
     public virtual State? PermanentState { get; set; }
 
+    public virtual ICollection<ResignationApplication> ResignationApplications { get; set; } = new List<ResignationApplication>();
+
     public virtual ICollection<RosterDetail> RosterDetails { get; set; } = new List<RosterDetail>();
+
+    public virtual ICollection<Tickit> Tickits { get; set; } = new List<Tickit>();
 
     public virtual Title Title { get; set; } = null!;
 

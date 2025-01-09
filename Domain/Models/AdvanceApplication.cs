@@ -40,4 +40,14 @@ public partial class AdvanceApplication
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual Employee Employee { get; set; } = null!;
+
+    public virtual ICollection<ExpenseClaim> ExpenseClaims { get; set; } = new List<ExpenseClaim>();
+
+    public virtual ExpenseType ExpenseType { get; set; } = null!;
+
+    public virtual Year Year { get; set; } = null!;
 }

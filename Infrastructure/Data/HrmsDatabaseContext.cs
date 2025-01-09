@@ -7,14 +7,14 @@ namespace Infrastructure.Data;
 
 public partial class HrmsDatabaseContext : DbContext
 {
-    public HrmsDatabaseContext(DbContextOptions<HrmsDatabaseContext> options) : base(options)
+    public HrmsDatabaseContext()
     {
     }
 
-    //protected override void OnModelCreating(ModelBuilder modelBuilder)
-    //{
-    //    base.OnModelCreating(modelBuilder);
-    //}
+    public HrmsDatabaseContext(DbContextOptions<HrmsDatabaseContext> options)
+        : base(options)
+    {
+    }
 
     public virtual DbSet<AdvanceApplication> AdvanceApplications { get; set; }
 
@@ -220,6 +220,26 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
             entity.Property(e => e.YearId).HasColumnName("YearID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.AdvanceApplications)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_AdvanceApplications_Companies");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.AdvanceApplications)
+                .HasForeignKey(d => d.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_AdvanceApplications_Employees");
+
+            entity.HasOne(d => d.ExpenseType).WithMany(p => p.AdvanceApplications)
+                .HasForeignKey(d => d.ExpenseTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_AdvanceApplications_ExpenseTypes");
+
+            entity.HasOne(d => d.Year).WithMany(p => p.AdvanceApplications)
+                .HasForeignKey(d => d.YearId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_AdvanceApplications_Years");
         });
 
         modelBuilder.Entity<Announcement>(entity =>
@@ -246,6 +266,11 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.Title).HasMaxLength(100);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Announcements)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Announcements_Companies");
         });
 
         modelBuilder.Entity<AnnouncementDetail>(entity =>
@@ -259,9 +284,7 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.CreateDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.DepartmentId)
-                .HasMaxLength(10)
-                .HasColumnName("DepartmentID");
+            entity.Property(e => e.DepartmentId).HasColumnName("DepartmentID");
             entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
             entity.Property(e => e.EngagedAt).HasColumnType("datetime");
             entity.Property(e => e.IsActive).HasDefaultValue(true);
@@ -269,6 +292,31 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.RoleId).HasColumnName("RoleID");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.AnnouncementDetails)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_AnnouncementDetails_Companies");
+
+            entity.HasOne(d => d.Department).WithMany(p => p.AnnouncementDetails)
+                .HasForeignKey(d => d.DepartmentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_AnnouncementDetails_Departments");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.AnnouncementDetails)
+                .HasForeignKey(d => d.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_AnnouncementDetails_Employees");
+
+            entity.HasOne(d => d.Location).WithMany(p => p.AnnouncementDetails)
+                .HasForeignKey(d => d.LocationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_AnnouncementDetails_Locations");
+
+            entity.HasOne(d => d.Role).WithMany(p => p.AnnouncementDetails)
+                .HasForeignKey(d => d.RoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_AnnouncementDetails_Roles");
         });
 
         modelBuilder.Entity<Asset>(entity =>
@@ -291,6 +339,21 @@ public partial class HrmsDatabaseContext : DbContext
                 .IsFixedLength();
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.AssetType).WithMany(p => p.Assets)
+                .HasForeignKey(d => d.AssetTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Assets_AssetTypes");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Assets)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Assets_Companies");
+
+            entity.HasOne(d => d.Location).WithMany(p => p.Assets)
+                .HasForeignKey(d => d.LocationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Assets_Locations");
         });
 
         modelBuilder.Entity<AssetAllotment>(entity =>
@@ -314,6 +377,31 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
             entity.Property(e => e.YearId).HasColumnName("YearID");
+
+            entity.HasOne(d => d.Asset).WithMany(p => p.AssetAllotments)
+                .HasForeignKey(d => d.AssetId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_AssetAllotments_Assets");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.AssetAllotments)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_AssetAllotments_Companies");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.AssetAllotments)
+                .HasForeignKey(d => d.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_AssetAllotments_Employees");
+
+            entity.HasOne(d => d.Month).WithMany(p => p.AssetAllotments)
+                .HasForeignKey(d => d.MonthId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_AssetAllotments_Months");
+
+            entity.HasOne(d => d.Year).WithMany(p => p.AssetAllotments)
+                .HasForeignKey(d => d.YearId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_AssetAllotments_Years");
         });
 
         modelBuilder.Entity<AssetType>(entity =>
@@ -332,6 +420,11 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.AssetTypes)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_AssetTypes_Companies");
         });
 
         modelBuilder.Entity<AssociateTaxis>(entity =>
@@ -349,6 +442,11 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.TaxName).HasMaxLength(100);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.AssociateTaxes)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_AssociateTaxes_Companies");
         });
 
         modelBuilder.Entity<Attendance>(entity =>
@@ -516,10 +614,6 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.Gstno)
                 .HasMaxLength(20)
                 .HasColumnName("GSTNO");
-            entity.Property(e => e.IsActive)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .IsFixedLength();
             entity.Property(e => e.Mission).IsUnicode(false);
             entity.Property(e => e.Name).HasMaxLength(200);
             entity.Property(e => e.Pincode).HasMaxLength(10);
@@ -654,6 +748,21 @@ public partial class HrmsDatabaseContext : DbContext
                 .IsFixedLength();
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.AssociateTax).WithMany(p => p.Deductions)
+                .HasForeignKey(d => d.AssociateTaxId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Deductions_AssociateTaxes");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Deductions)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Deductions_Companies");
+
+            entity.HasOne(d => d.DeductionType).WithMany(p => p.Deductions)
+                .HasForeignKey(d => d.DeductionTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Deductions_DeductionTypes");
         });
 
         modelBuilder.Entity<DeductionType>(entity =>
@@ -681,6 +790,11 @@ public partial class HrmsDatabaseContext : DbContext
                 .IsFixedLength();
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.DeductionTypes)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_DeductionTypes_Companies");
         });
 
         modelBuilder.Entity<Department>(entity =>
@@ -801,6 +915,16 @@ public partial class HrmsDatabaseContext : DbContext
                 .HasColumnName("TDSDeductMethod");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Earnings)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Earnings_Companies");
+
+            entity.HasOne(d => d.EarningType).WithMany(p => p.Earnings)
+                .HasForeignKey(d => d.EarningTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Earnings_EarningTypes");
         });
 
         modelBuilder.Entity<EarningType>(entity =>
@@ -842,6 +966,11 @@ public partial class HrmsDatabaseContext : DbContext
                 .HasColumnName("TDSDeductMethod");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.EarningTypes)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_EarningTypes_Companies");
         });
 
         modelBuilder.Entity<Employee>(entity =>
@@ -1210,6 +1339,11 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.ExitTypes)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ExitTypes_Companies");
         });
 
         modelBuilder.Entity<ExpenseClaim>(entity =>
@@ -1237,6 +1371,30 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
             entity.Property(e => e.YearId).HasColumnName("YearID");
+
+            entity.HasOne(d => d.Application).WithMany(p => p.ExpenseClaims)
+                .HasForeignKey(d => d.ApplicationId)
+                .HasConstraintName("FK_ExpenseClaims_AdvanceApplications");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.ExpenseClaims)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ExpenseClaims_Companies");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.ExpenseClaims)
+                .HasForeignKey(d => d.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ExpenseClaims_Employees");
+
+            entity.HasOne(d => d.ExpenseType).WithMany(p => p.ExpenseClaims)
+                .HasForeignKey(d => d.ExpenseTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ExpenseClaims_ExpenseTypes");
+
+            entity.HasOne(d => d.Month).WithMany(p => p.ExpenseClaims)
+                .HasForeignKey(d => d.MonthId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ExpenseClaims_Months");
         });
 
         modelBuilder.Entity<ExpenseType>(entity =>
@@ -1255,6 +1413,11 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.ExpenseTypes)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ExpenseTypes_Companies");
         });
 
         modelBuilder.Entity<Grade>(entity =>
@@ -1362,6 +1525,26 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
             entity.Property(e => e.YearId).HasColumnName("YearID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.LeaveApplications)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_LeaveApplications_Companies");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.LeaveApplications)
+                .HasForeignKey(d => d.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_LeaveApplications_Employees");
+
+            entity.HasOne(d => d.LeaveType).WithMany(p => p.LeaveApplications)
+                .HasForeignKey(d => d.LeaveTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_LeaveApplications_LeaveTypes");
+
+            entity.HasOne(d => d.Year).WithMany(p => p.LeaveApplications)
+                .HasForeignKey(d => d.YearId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_LeaveApplications_Years");
         });
 
         modelBuilder.Entity<LeaveApplicationDetail>(entity =>
@@ -1386,6 +1569,16 @@ public partial class HrmsDatabaseContext : DbContext
                 .IsFixedLength();
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Application).WithMany(p => p.LeaveApplicationDetails)
+                .HasForeignKey(d => d.ApplicationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_LeaveApplicationDetails_LeaveApplications");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.LeaveApplicationDetails)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_LeaveApplicationDetails_Companies");
         });
 
         modelBuilder.Entity<LeaveBalance>(entity =>
@@ -1404,6 +1597,16 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
             entity.Property(e => e.YearId).HasColumnName("YearID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.LeaveBalances)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_LeaveBalances_Companies");
+
+            entity.HasOne(d => d.Year).WithMany(p => p.LeaveBalances)
+                .HasForeignKey(d => d.YearId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_LeaveBalances_Years");
         });
 
         modelBuilder.Entity<LeaveType>(entity =>
@@ -1451,6 +1654,11 @@ public partial class HrmsDatabaseContext : DbContext
                 .IsFixedLength();
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.LeaveTypes)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_LeaveTypes_Companies");
         });
 
         modelBuilder.Entity<LoanApplication>(entity =>
@@ -1479,6 +1687,21 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
             entity.Property(e => e.YearId).HasColumnName("YearID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.LoanApplications)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_LoanApplications_Companies");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.LoanApplications)
+                .HasForeignKey(d => d.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_LoanApplications_Employees");
+
+            entity.HasOne(d => d.LoanType).WithMany(p => p.LoanApplications)
+                .HasForeignKey(d => d.LoanTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_LoanApplications_LoanTypes");
         });
 
         modelBuilder.Entity<LoanDetail>(entity =>
@@ -1497,6 +1720,26 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
             entity.Property(e => e.YearId).HasColumnName("YearID");
+
+            entity.HasOne(d => d.Application).WithMany(p => p.LoanDetails)
+                .HasForeignKey(d => d.ApplicationId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_LoanDetails_LoanApplications");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.LoanDetails)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_LoanDetails_Companies");
+
+            entity.HasOne(d => d.Month).WithMany(p => p.LoanDetails)
+                .HasForeignKey(d => d.MonthId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_LoanDetails_Months");
+
+            entity.HasOne(d => d.Year).WithMany(p => p.LoanDetails)
+                .HasForeignKey(d => d.YearId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_LoanDetails_Years");
         });
 
         modelBuilder.Entity<LoanType>(entity =>
@@ -1516,6 +1759,11 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.PerquisiteRate).HasColumnType("decimal(4, 2)");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.LoanTypes)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_LoanTypes_Companies");
         });
 
         modelBuilder.Entity<Location>(entity =>
@@ -1604,6 +1852,21 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.TaskId).HasColumnName("TaskID");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Notifications)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Notifications_Companies");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.Notifications)
+                .HasForeignKey(d => d.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Notifications_Employees");
+
+            entity.HasOne(d => d.Task).WithMany(p => p.Notifications)
+                .HasForeignKey(d => d.TaskId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Notifications_Tasks");
         });
 
         modelBuilder.Entity<OvertimeApplication>(entity =>
@@ -1629,6 +1892,26 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
             entity.Property(e => e.YearId).HasColumnName("YearID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.OvertimeApplications)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_OvertimeApplications_Companies");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.OvertimeApplications)
+                .HasForeignKey(d => d.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_OvertimeApplications_Employees");
+
+            entity.HasOne(d => d.Month).WithMany(p => p.OvertimeApplications)
+                .HasForeignKey(d => d.MonthId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_OvertimeApplications_Months");
+
+            entity.HasOne(d => d.Year).WithMany(p => p.OvertimeApplications)
+                .HasForeignKey(d => d.YearId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_OvertimeApplications_Years");
         });
 
         modelBuilder.Entity<OvertimePolicy>(entity =>
@@ -1645,6 +1928,16 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Category).WithMany(p => p.OvertimePolicies)
+                .HasForeignKey(d => d.CategoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_OvertimePolicies_EmployeeCategories");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.OvertimePolicies)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_OvertimePolicies_Companies");
         });
 
         modelBuilder.Entity<Payroll>(entity =>
@@ -1672,6 +1965,26 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
             entity.Property(e => e.YearId).HasColumnName("YearID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Payrolls)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Payrolls_Companies");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.Payrolls)
+                .HasForeignKey(d => d.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Payrolls_Employees");
+
+            entity.HasOne(d => d.Month).WithMany(p => p.Payrolls)
+                .HasForeignKey(d => d.MonthId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Payrolls_Months");
+
+            entity.HasOne(d => d.Year).WithMany(p => p.Payrolls)
+                .HasForeignKey(d => d.YearId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Payrolls_Years");
         });
 
         modelBuilder.Entity<PayrollDeduction>(entity =>
@@ -1689,6 +2002,21 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.PayrollId).HasColumnName("PayrollID");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.PayrollDeductions)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PayrollDeductions_Companies");
+
+            entity.HasOne(d => d.Deduction).WithMany(p => p.PayrollDeductions)
+                .HasForeignKey(d => d.DeductionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PayrollDeductions_Deductions");
+
+            entity.HasOne(d => d.Payroll).WithMany(p => p.PayrollDeductions)
+                .HasForeignKey(d => d.PayrollId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PayrollDeductions_Payrolls");
         });
 
         modelBuilder.Entity<PayrollEarning>(entity =>
@@ -1706,6 +2034,21 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.PayrollId).HasColumnName("PayrollID");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.PayrollEarnings)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PayrollEarnings_Companies");
+
+            entity.HasOne(d => d.Earning).WithMany(p => p.PayrollEarnings)
+                .HasForeignKey(d => d.EarningId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PayrollEarnings_Earnings");
+
+            entity.HasOne(d => d.Payroll).WithMany(p => p.PayrollEarnings)
+                .HasForeignKey(d => d.PayrollId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PayrollEarnings_Payrolls");
         });
 
         modelBuilder.Entity<PayrollReimbursement>(entity =>
@@ -1723,6 +2066,21 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.ReimbursementId).HasColumnName("ReimbursementID");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.PayrollReimbursements)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PayrollReimbursements_Companies");
+
+            entity.HasOne(d => d.Payroll).WithMany(p => p.PayrollReimbursements)
+                .HasForeignKey(d => d.PayrollId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PayrollReimbursements_Payrolls");
+
+            entity.HasOne(d => d.Reimbursement).WithMany(p => p.PayrollReimbursements)
+                .HasForeignKey(d => d.ReimbursementId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PayrollReimbursements_Reimbursements");
         });
 
         modelBuilder.Entity<Profile>(entity =>
@@ -1830,6 +2188,16 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.ReimbursementTypeId).HasColumnName("ReimbursementTypeID");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Reimbursements)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Reimbursements_Companies");
+
+            entity.HasOne(d => d.ReimbursementTypeNavigation).WithMany(p => p.Reimbursements)
+                .HasForeignKey(d => d.ReimbursementTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Reimbursements_ReimbursementTypes");
         });
 
         modelBuilder.Entity<ReimbursementType>(entity =>
@@ -1854,6 +2222,11 @@ public partial class HrmsDatabaseContext : DbContext
                 .HasColumnName("ReimbursementType");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.ReimbursementTypes)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ReimbursementTypes_Companies");
         });
 
         modelBuilder.Entity<ResignationApplication>(entity =>
@@ -1879,6 +2252,31 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
             entity.Property(e => e.YearId).HasColumnName("YearID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.ResignationApplications)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ResignationApplications_Companies");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.ResignationApplications)
+                .HasForeignKey(d => d.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ResignationApplications_Employees");
+
+            entity.HasOne(d => d.ExitType).WithMany(p => p.ResignationApplications)
+                .HasForeignKey(d => d.ExitTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ResignationApplications_ExitTypes");
+
+            entity.HasOne(d => d.Month).WithMany(p => p.ResignationApplications)
+                .HasForeignKey(d => d.MonthId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ResignationApplications_Months");
+
+            entity.HasOne(d => d.Year).WithMany(p => p.ResignationApplications)
+                .HasForeignKey(d => d.YearId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ResignationApplications_Years");
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -2022,6 +2420,16 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.SalaryTemplateId).HasColumnName("SalaryTemplateID");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.SalaryEarnings)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SalaryEarnings_Companies");
+
+            entity.HasOne(d => d.Earning).WithMany(p => p.SalaryEarnings)
+                .HasForeignKey(d => d.EarningId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SalaryEarnings_Earnings");
         });
 
         modelBuilder.Entity<SalaryReimbursement>(entity =>
@@ -2039,6 +2447,21 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.SalaryTemplateId).HasColumnName("SalaryTemplateID");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.SalaryReimbursements)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SalaryReimbursements_Companies");
+
+            entity.HasOne(d => d.Reimbursement).WithMany(p => p.SalaryReimbursements)
+                .HasForeignKey(d => d.ReimbursementId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SalaryReimbursements_Reimbursements");
+
+            entity.HasOne(d => d.SalaryTemplate).WithMany(p => p.SalaryReimbursements)
+                .HasForeignKey(d => d.SalaryTemplateId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SalaryReimbursements_SalaryTemplates");
         });
 
         modelBuilder.Entity<SalaryTemplate>(entity =>
@@ -2058,6 +2481,11 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.SalaryTemplates)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SalaryTemplates_Companies");
         });
 
         modelBuilder.Entity<Shift>(entity =>
@@ -2143,11 +2571,6 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
 
-            entity.HasOne(d => d.Company).WithMany(p => p.States)
-                .HasForeignKey(d => d.CompanyId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_States_Companies");
-
             entity.HasOne(d => d.Country).WithMany(p => p.States)
                 .HasForeignKey(d => d.CountryId)
                 .HasConstraintName("FK_States_Countries");
@@ -2207,6 +2630,11 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.StatutoryNumber).HasMaxLength(10);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Statutories)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Statutories_Companies");
         });
 
         modelBuilder.Entity<StatutorySlab>(entity =>
@@ -2232,6 +2660,16 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.StatutoryId).HasColumnName("StatutoryID");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.StatutorySlabs)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_StatutorySlabs_Companies");
+
+            entity.HasOne(d => d.Statutory).WithMany(p => p.StatutorySlabs)
+                .HasForeignKey(d => d.StatutoryId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_StatutorySlabs_Statutories");
         });
 
         modelBuilder.Entity<SystemModule>(entity =>
@@ -2308,6 +2746,21 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
             entity.Property(e => e.YearId).HasColumnName("YearID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Tasks)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Tasks_Companies");
+
+            entity.HasOne(d => d.Month).WithMany(p => p.Tasks)
+                .HasForeignKey(d => d.MonthId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Tasks_Months");
+
+            entity.HasOne(d => d.Year).WithMany(p => p.Tasks)
+                .HasForeignKey(d => d.YearId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Tasks_Years");
         });
 
         modelBuilder.Entity<TaskAttachment>(entity =>
@@ -2322,12 +2775,20 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.CreateLoginId).HasColumnName("CreateLoginID");
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.StatusDate).HasColumnType("datetime");
-            entity.Property(e => e.TaskId)
-                .HasMaxLength(50)
-                .HasColumnName("TaskID");
+            entity.Property(e => e.TaskId).HasColumnName("TaskID");
             entity.Property(e => e.Title).HasMaxLength(100);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.TaskAttachments)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TaskAttachments_Companies");
+
+            entity.HasOne(d => d.Task).WithMany(p => p.TaskAttachments)
+                .HasForeignKey(d => d.TaskId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TaskAttachments_Tasks");
         });
 
         modelBuilder.Entity<TaskHistory>(entity =>
@@ -2347,11 +2808,19 @@ public partial class HrmsDatabaseContext : DbContext
                 .IsUnicode(false)
                 .IsFixedLength();
             entity.Property(e => e.StatusDate).HasColumnType("datetime");
-            entity.Property(e => e.TaskId)
-                .HasMaxLength(50)
-                .HasColumnName("TaskID");
+            entity.Property(e => e.TaskId).HasColumnName("TaskID");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.TaskHistories)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TaskHistories_Companies");
+
+            entity.HasOne(d => d.Task).WithMany(p => p.TaskHistories)
+                .HasForeignKey(d => d.TaskId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TaskHistories_Tasks");
         });
 
         modelBuilder.Entity<Team>(entity =>
@@ -2368,6 +2837,11 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.Title).HasMaxLength(100);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Teams)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Teams_Companies");
         });
 
         modelBuilder.Entity<TeamMember>(entity =>
@@ -2387,6 +2861,16 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.TeamId).HasColumnName("TeamID");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.TeamMembers)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TeamMembers_Companies");
+
+            entity.HasOne(d => d.Team).WithMany(p => p.TeamMembers)
+                .HasForeignKey(d => d.TeamId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TeamMembers_Teams");
         });
 
         modelBuilder.Entity<Tickit>(entity =>
@@ -2410,6 +2894,21 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.Title).HasMaxLength(100);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.Tickits)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Tickits_Companies");
+
+            entity.HasOne(d => d.Employee).WithMany(p => p.Tickits)
+                .HasForeignKey(d => d.EmployeeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Tickits_Employees");
+
+            entity.HasOne(d => d.TickitType).WithMany(p => p.Tickits)
+                .HasForeignKey(d => d.TickitTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Tickits_TickitTypes");
         });
 
         modelBuilder.Entity<TickitAttachment>(entity =>
@@ -2427,6 +2926,16 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.Title).HasMaxLength(100);
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.TickitAttachments)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TickitAttachments_Companies");
+
+            entity.HasOne(d => d.Tickit).WithMany(p => p.TickitAttachments)
+                .HasForeignKey(d => d.TickitId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TickitAttachments_Tickits");
         });
 
         modelBuilder.Entity<TickitType>(entity =>
@@ -2445,6 +2954,11 @@ public partial class HrmsDatabaseContext : DbContext
                 .HasColumnName("TickitType");
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+
+            entity.HasOne(d => d.Company).WithMany(p => p.TickitTypes)
+                .HasForeignKey(d => d.CompanyId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TickitTypes_Companies");
         });
 
         modelBuilder.Entity<Title>(entity =>

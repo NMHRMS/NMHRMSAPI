@@ -26,4 +26,8 @@ public partial class SalaryTemplate
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual ICollection<SalaryReimbursement> SalaryReimbursements { get; set; } = new List<SalaryReimbursement>();
 }

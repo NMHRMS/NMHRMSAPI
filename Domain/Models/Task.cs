@@ -38,4 +38,16 @@ public partial class Task
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual Month Month { get; set; } = null!;
+
+    public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+
+    public virtual ICollection<TaskAttachment> TaskAttachments { get; set; } = new List<TaskAttachment>();
+
+    public virtual ICollection<TaskHistory> TaskHistories { get; set; } = new List<TaskHistory>();
+
+    public virtual Year Year { get; set; } = null!;
 }

@@ -26,4 +26,8 @@ public partial class LoanType
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual ICollection<LoanApplication> LoanApplications { get; set; } = new List<LoanApplication>();
 }

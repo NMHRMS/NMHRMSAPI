@@ -56,4 +56,12 @@ public partial class Earning
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual EarningType EarningType { get; set; } = null!;
+
+    public virtual ICollection<PayrollEarning> PayrollEarnings { get; set; } = new List<PayrollEarning>();
+
+    public virtual ICollection<SalaryEarning> SalaryEarnings { get; set; } = new List<SalaryEarning>();
 }

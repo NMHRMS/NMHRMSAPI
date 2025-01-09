@@ -34,4 +34,12 @@ public partial class Asset
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual ICollection<AssetAllotment> AssetAllotments { get; set; } = new List<AssetAllotment>();
+
+    public virtual AssetType AssetType { get; set; } = null!;
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual Location Location { get; set; } = null!;
 }

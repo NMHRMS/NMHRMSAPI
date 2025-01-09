@@ -24,4 +24,8 @@ public partial class AssetType
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual ICollection<Asset> Assets { get; set; } = new List<Asset>();
+
+    public virtual Company Company { get; set; } = null!;
 }

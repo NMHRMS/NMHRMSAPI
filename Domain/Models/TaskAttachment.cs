@@ -9,7 +9,7 @@ public partial class TaskAttachment
 
     public int AttachmentId { get; set; }
 
-    public string TaskId { get; set; } = null!;
+    public int TaskId { get; set; }
 
     public string Title { get; set; } = null!;
 
@@ -28,4 +28,8 @@ public partial class TaskAttachment
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual Task Task { get; set; } = null!;
 }

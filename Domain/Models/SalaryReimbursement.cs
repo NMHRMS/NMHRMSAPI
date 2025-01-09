@@ -24,4 +24,10 @@ public partial class SalaryReimbursement
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual Reimbursement Reimbursement { get; set; } = null!;
+
+    public virtual SalaryTemplate SalaryTemplate { get; set; } = null!;
 }

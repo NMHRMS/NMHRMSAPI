@@ -19,6 +19,8 @@ namespace Application.Mapper
                 .ForMember(t=> t.Name, (o) => o.MapFrom(s=> s.FirstName))
                 .ForMember(t=> t.MobileNo, (o) => o.MapFrom(s=> s.Login))
                 .ReverseMap();
+            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<Domain.Models.Profile, ProfileDto>().ReverseMap();
         }
     }
 }

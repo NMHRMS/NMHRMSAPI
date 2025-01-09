@@ -36,4 +36,8 @@ public partial class StatutorySlab
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual Statutory Statutory { get; set; } = null!;
 }

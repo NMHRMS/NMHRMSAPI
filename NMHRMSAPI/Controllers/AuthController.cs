@@ -52,8 +52,8 @@ namespace NMHRMSAPI.Controllers
         {
             try
             {
-                authService.Login(loginDto);
-                return Ok();
+                var result = authService.Login(loginDto);
+                return Ok(result);
             }
             catch (Exception ex)
             {

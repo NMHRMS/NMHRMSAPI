@@ -28,4 +28,8 @@ public partial class LeaveApplicationDetail
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual LeaveApplication Application { get; set; } = null!;
+
+    public virtual Company Company { get; set; } = null!;
 }

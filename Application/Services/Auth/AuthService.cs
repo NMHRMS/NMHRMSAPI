@@ -4,6 +4,8 @@ using AutoMapper;
 using Domain.Models;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -20,12 +22,14 @@ namespace Application.Services.Auth
         private readonly IRepository repository;
         private readonly IMapper mapper;
         private readonly IPasswordHelper passwordHelper;
+        private readonly IConfiguration configuration;
 
-        public AuthService(IRepository repository, IMapper mapper, IPasswordHelper passwordHelper)
+        public AuthService(IRepository repository, IMapper mapper, IPasswordHelper passwordHelper, IConfiguration configuration)
         {
             this.repository = repository;
             this.mapper = mapper;
             this.passwordHelper = passwordHelper;
+            this.configuration = configuration;
         }
 
         #region Puublic Methods
@@ -64,23 +68,15 @@ namespace Application.Services.Auth
         public object Login(LoginDto loginDto)
         {
             var user = repository.Get<User>(x => x.Login == loginDto.MobileNo && x.Password == loginDto.Password && x.IsActive && !x.IsDeleted)
-                //.Include(x => x.Profile)
-                .FirstOrDefault();
-
-            var user1 = repository.Get<User>(x => x.Login == loginDto.MobileNo && x.Password == loginDto.Password && x.IsActive && !x.IsDeleted)
-                .Include(x => x.Profile)
-                .FirstOrDefault();
-
-            var user2 = repository.Get<User>().AsQueryable()
-                .Include(x => x.Company)
-                .FirstOrDefault();
+                .Include(x => x.Profile).FirstOrDefault();
 
             if (user != null)
             {
-                var token = GenerateJwtToken(user);
-                return new { user };
+                var jwtToken = GenerateJwtToken(user);
+                var userDetails = mapper.Map<UserDto>(user);
+                var profileDetails = mapper.Map<ProfileDto>(user.Profile);
+                return new { UserDetails = userDetails, ProfileDetails = profileDetails, Token = jwtToken };
             }
-
 
             throw new ArgumentException("Invalid username or password");
         }
@@ -97,14 +93,19 @@ namespace Application.Services.Auth
             var authClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.FirstName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.Email, user.EmailId),
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                new Claim(ClaimTypes.Role, user.Profile.Profile1)
             };
-            authClaims.Add(new Claim(ClaimTypes.Email, user.EmailId));
-            authClaims.Add(new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()));
 
-            //var 
-
-            throw new NotImplementedException();
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["AppSettings:JwtSecret"]));
+            var token = new JwtSecurityToken(
+                expires: DateTime.UtcNow.AddHours(3),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256));
+            var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+            return jwtToken;
         }
         #endregion
     }

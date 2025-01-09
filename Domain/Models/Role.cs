@@ -27,6 +27,8 @@ public partial class Role
 
     public DateTime? UpdateDate { get; set; }
 
+    public virtual ICollection<AnnouncementDetail> AnnouncementDetails { get; set; } = new List<AnnouncementDetail>();
+
     public virtual Company Company { get; set; } = null!;
 
     public virtual ICollection<EmployeeProfile> EmployeeProfiles { get; set; } = new List<EmployeeProfile>();

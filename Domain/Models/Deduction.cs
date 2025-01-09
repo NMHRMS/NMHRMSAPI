@@ -38,4 +38,12 @@ public partial class Deduction
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual AssociateTaxis AssociateTax { get; set; } = null!;
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual DeductionType DeductionType { get; set; } = null!;
+
+    public virtual ICollection<PayrollDeduction> PayrollDeductions { get; set; } = new List<PayrollDeduction>();
 }

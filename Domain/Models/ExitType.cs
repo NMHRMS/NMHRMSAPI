@@ -24,4 +24,8 @@ public partial class ExitType
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual ICollection<ResignationApplication> ResignationApplications { get; set; } = new List<ResignationApplication>();
 }

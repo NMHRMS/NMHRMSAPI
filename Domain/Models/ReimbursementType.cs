@@ -28,4 +28,8 @@ public partial class ReimbursementType
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual ICollection<Reimbursement> Reimbursements { get; set; } = new List<Reimbursement>();
 }

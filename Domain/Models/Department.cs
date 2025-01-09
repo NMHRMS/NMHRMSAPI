@@ -27,5 +27,7 @@ public partial class Department
 
     public DateTime? UpdateDate { get; set; }
 
+    public virtual ICollection<AnnouncementDetail> AnnouncementDetails { get; set; } = new List<AnnouncementDetail>();
+
     public virtual Company? Company { get; set; }
 }

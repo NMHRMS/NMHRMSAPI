@@ -32,4 +32,8 @@ public partial class LeaveBalance
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual Year Year { get; set; } = null!;
 }

@@ -40,4 +40,12 @@ public partial class Tickit
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual Employee Employee { get; set; } = null!;
+
+    public virtual ICollection<TickitAttachment> TickitAttachments { get; set; } = new List<TickitAttachment>();
+
+    public virtual TickitType TickitType { get; set; } = null!;
 }

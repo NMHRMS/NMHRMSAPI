@@ -11,13 +11,13 @@ public partial class AnnouncementDetail
 
     public int AnnouncementId { get; set; }
 
-    public string RoleId { get; set; } = null!;
+    public int RoleId { get; set; }
 
-    public string DepartmentId { get; set; } = null!;
+    public int DepartmentId { get; set; }
 
-    public double LocationId { get; set; }
+    public int LocationId { get; set; }
 
-    public DateOnly EmployeeId { get; set; }
+    public int EmployeeId { get; set; }
 
     public bool IsRead { get; set; }
 
@@ -36,4 +36,14 @@ public partial class AnnouncementDetail
     public int? UpdateLoginId { get; set; }
 
     public DateTime? UpdateDate { get; set; }
+
+    public virtual Company Company { get; set; } = null!;
+
+    public virtual Department Department { get; set; } = null!;
+
+    public virtual Employee Employee { get; set; } = null!;
+
+    public virtual Location Location { get; set; } = null!;
+
+    public virtual Role Role { get; set; } = null!;
 }
