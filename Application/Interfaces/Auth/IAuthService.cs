@@ -10,5 +10,6 @@ namespace Application.Interfaces.Auth
     public interface IAuthService
     {
         void SignUp(SignUpDto signUpDto);
+        object Login(LoginDto loginDto);
     }
 }

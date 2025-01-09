@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -16,5 +15,6 @@ namespace Application.Dtos.Auth
         [Compare("Password")]
         public required string ConfirmPassword { get; set; }
         public bool NewsLetters { get; set; }
+        public required int CountryId { get; set; }
     }
 }
