@@ -1,5 +1,7 @@
 ﻿using Application.Interfaces.Auth;
+using Application.Interfaces.Employee;
 using Application.Services.Auth;
+using Application.Services.Employee;
 using Infrastructure.Data;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -18,6 +20,7 @@ namespace Application.AppStart
             services.AddScoped<IDbFactory, DbFactory>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPasswordHelper, PasswordHelper>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
             //services.AddDbContext<HrmsDatabaseContext>(ServiceLifetime.Transient);
             return services;
         }
