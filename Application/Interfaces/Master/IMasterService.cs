@@ -10,5 +10,6 @@ namespace Application.Interfaces.Master
     public interface IMasterService
     {
         void AddUpdateGrades(CompanyGradeDto companyGradeDto);
+        List<CountriesDto> GetCountries();
     }
 }

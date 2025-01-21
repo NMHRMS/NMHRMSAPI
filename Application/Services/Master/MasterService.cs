@@ -1,10 +1,12 @@
-﻿using Application.Dtos.Master;
+﻿using Application.Dtos.Auth;
+using Application.Dtos.Master;
 using Application.Interfaces.Employee;
 using Application.Interfaces.Master;
 using AutoMapper;
 using Domain.Models;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -51,6 +53,17 @@ namespace Application.Services.Master
                 gradeDetails.CreateLoginId = Convert.ToInt32(userId);
                 repository.Add(gradeDetails);
             }
+        }
+
+        /// <summary>
+        /// Method returns countries, states and cities
+        /// </summary>
+        /// <returns></returns>
+        public List<CountriesDto> GetCountries()
+        {
+            var countries = repository.Get<Country>(x => !x.IsDeleted && x.IsActive).Include(x => x.States).ThenInclude(x => x.Cities).ToList();
+            var result = mapper.Map<List<Country>, List<CountriesDto>>(countries);
+            return result;
         }
         #endregion
 

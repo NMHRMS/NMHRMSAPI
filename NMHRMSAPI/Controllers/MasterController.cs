@@ -40,5 +40,21 @@ namespace NMHRMSAPI.Controllers
                 throw;
             }
         }
+
+        [HttpGet]
+        [Route("GetCountries")]
+        public IActionResult GetCountries()
+        {
+            try
+            {
+                var result = masterService.GetCountries();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"{ControllerContext.ActionDescriptor.ActionName}, ---Error - {ex.Message} ---> Additional Info - {(ex.InnerException != null ? ex.InnerException.Message : null)}");
+                throw;
+            }
+        }
     }
 }

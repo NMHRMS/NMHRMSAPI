@@ -23,6 +23,11 @@ namespace Application.Mapper
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Role, RoleDto>().ReverseMap();
             CreateMap<Company, LoginCompanyDto>().ReverseMap();
+            CreateMap<Country, CountriesDto>().ReverseMap()
+                .ForMember(dest => dest.States, opt => opt.MapFrom(src => src.States));
+            CreateMap<State, StatesDto>()
+                .ForMember(dest => dest.Cities, opt => opt.MapFrom(src => src.Cities));
+            CreateMap<City, CitiesDto>().ReverseMap();
             CreateMap<Grade, CompanyGradeDto>().ReverseMap()
                 .ForMember(t => t.Grade1, (o) => o.MapFrom(s => s.Grade));
         }
