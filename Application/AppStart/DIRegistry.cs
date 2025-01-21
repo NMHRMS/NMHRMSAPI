@@ -1,8 +1,11 @@
 ﻿using Application.Interfaces.Auth;
 using Application.Interfaces.Employee;
+using Application.Interfaces.Master;
 using Application.Services.Auth;
 using Application.Services.Employee;
+using Application.Services.Master;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -21,6 +24,8 @@ namespace Application.AppStart
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPasswordHelper, PasswordHelper>();
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddHttpContextAccessor();
+            services.AddScoped<IMasterService, MasterService>();
             //services.AddDbContext<HrmsDatabaseContext>(ServiceLifetime.Transient);
             return services;
         }

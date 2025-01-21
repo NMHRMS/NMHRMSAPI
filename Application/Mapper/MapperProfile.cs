@@ -1,4 +1,5 @@
 ﻿using Application.Dtos.Auth;
+using Application.Dtos.Master;
 using AutoMapper;
 using Domain.Models;
 using System;
@@ -22,6 +23,8 @@ namespace Application.Mapper
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Role, RoleDto>().ReverseMap();
             CreateMap<Company, LoginCompanyDto>().ReverseMap();
+            CreateMap<Grade, CompanyGradeDto>().ReverseMap()
+                .ForMember(t => t.Grade1, (o) => o.MapFrom(s => s.Grade));
         }
     }
 }

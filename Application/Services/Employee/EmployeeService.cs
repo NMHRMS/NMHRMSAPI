@@ -30,5 +30,8 @@ namespace Application.Services.Employee
             throw new NotImplementedException();
         }
         #endregion
+
+        #region Private Methods
+        #endregion
     }
 }

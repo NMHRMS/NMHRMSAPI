@@ -17,7 +17,7 @@ namespace NMHRMSAPI.Controllers
         public readonly IEmployeeService employeeService;
 
         /// <summary>
-        /// Inject methods to Auth controller
+        /// Inject methods to Employee controller
         /// </summary>
         /// <param name="employeeService"></param>
         public EmployeeController(IEmployeeService employeeService)
