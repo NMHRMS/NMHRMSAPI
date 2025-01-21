@@ -21,6 +21,7 @@ namespace Application.Mapper
                 .ReverseMap();
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Role, RoleDto>().ReverseMap();
+            CreateMap<Company, LoginCompanyDto>().ReverseMap();
         }
     }
 }

@@ -11,5 +11,6 @@ namespace Application.Interfaces.Auth
     {
         void SignUp(SignUpDto signUpDto);
         object Login(LoginDto loginDto);
+        List<LoginCompanyDto> GetLoginCompanies(LoginDto loginDto);
     }
 }

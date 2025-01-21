@@ -41,6 +41,7 @@ namespace Application.Services.Auth
             var currentDate = DateTime.Now;
             var companyDetails = mapper.Map<Company>(signUpDto);
             companyDetails.CreateDate = currentDate;
+            companyDetails.IsActive = true;
             repository.Add(companyDetails);
 
             var roleDetails = new Domain.Models.Role();
@@ -48,6 +49,7 @@ namespace Application.Services.Auth
             roleDetails.CreateDate = currentDate;
             roleDetails.CompanyId = companyDetails.CompanyId;
             roleDetails.CreareLoginId = 0;
+            roleDetails.IsActive = true;
             repository.Add(roleDetails);
 
             var userDetails = mapper.Map<User>(signUpDto);
@@ -56,23 +58,28 @@ namespace Application.Services.Auth
             userDetails.RoleId = roleDetails.RoleId;
             userDetails.IsActive = true;
             userDetails.CreateLoginId = 0;
-            userDetails.Password = signUpDto.Password;  //passwordHelper.HashPassword(signUpDto.Password);
+            //userDetails.Password = passwordHelper.HashPassword(signUpDto.Password);
             repository.Add(userDetails);
 
 
             //return repository.Get<Country>().AsQueryable().AsNoTracking().ToList();
         }
 
-        public object Login(LoginDto loginDto)
+        public List<LoginCompanyDto> GetLoginCompanies(LoginDto loginDto)
         {
-            var usersCount = repository.Get<User>(x => x.MobileNo == loginDto.MobileNo).Count();
-
-            if (usersCount > 0)
+            if(IsValidUser(loginDto))
             {
-
+                var result = repository.Get<Company>(x => x.MobileNo == loginDto.MobileNo && x.IsActive && !x.IsDeleted).ToList();
+                var companyDetails = mapper.Map<List<LoginCompanyDto>>(result);
+                return companyDetails;
             }
 
-            var user = repository.Get<User>(x => x.Login == loginDto.MobileNo && x.Password == loginDto.Password && x.IsActive && !x.IsDeleted)
+            throw new ArgumentException("Invalid username or password");
+        }
+
+        public object Login(LoginDto loginDto)
+        {
+            var user = repository.Get<User>(x => x.Login == loginDto.MobileNo && x.Password == loginDto.Password && x.CompanyId == loginDto.CompanyId && x.IsActive && !x.IsDeleted)
                 .Include(x => x.Role).FirstOrDefault();
 
             if (user != null)
@@ -88,6 +95,12 @@ namespace Application.Services.Auth
         #endregion
 
         #region Private Methods
+
+        private bool IsValidUser(LoginDto loginDto)
+        {
+            return repository.Any<User>(x => x.Login == loginDto.MobileNo && x.Password == loginDto.Password && x.IsActive && !x.IsDeleted);
+        }
+
         private bool IsDuplicateEmail(string emailId)
         {
             return repository.Any<User>(x => x.EmailId == emailId);

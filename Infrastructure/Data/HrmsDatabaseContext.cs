@@ -615,6 +615,7 @@ public partial class HrmsDatabaseContext : DbContext
                 .HasMaxLength(20)
                 .HasColumnName("GSTNO");
             entity.Property(e => e.Mission).IsUnicode(false);
+            entity.Property(e => e.MobileNo).HasMaxLength(10);
             entity.Property(e => e.Name).HasMaxLength(200);
             entity.Property(e => e.Pincode).HasMaxLength(10);
             entity.Property(e => e.Profile).IsUnicode(false);

@@ -61,5 +61,22 @@ namespace NMHRMSAPI.Controllers
                 throw;
             }
         }
+        
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("GetLoginCompanies")]
+        public IActionResult GetLoginCompanies(LoginDto loginDto)
+        {
+            try
+            {
+                var result = authService.GetLoginCompanies(loginDto);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError($"{ControllerContext.ActionDescriptor.ActionName} - {JsonConvert.SerializeObject(loginDto)}, ---Error - {ex.Message} ---> Additional Info - {(ex.InnerException != null ? ex.InnerException.Message : null)}");
+                throw;
+            }
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace Application.Dtos.Auth
     {
         public required string MobileNo { get; set; }
         public required string Password { get; set; }
+        public required int CompanyId { get; set; }
     }
 }

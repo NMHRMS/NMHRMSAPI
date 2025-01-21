@@ -55,6 +55,10 @@ public partial class Company
 
     public DateTime? UpdateDate { get; set; }
 
+    public string MobileNo { get; set; } = null!;
+
+    public bool IsDeleted { get; set; }
+
     public virtual ICollection<AdvanceApplication> AdvanceApplications { get; set; } = new List<AdvanceApplication>();
 
     public virtual ICollection<AnnouncementDetail> AnnouncementDetails { get; set; } = new List<AnnouncementDetail>();
