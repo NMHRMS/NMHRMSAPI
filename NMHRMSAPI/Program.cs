@@ -13,6 +13,19 @@ var configuration = builder.Configuration;
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+// Add CORS with a policy to allow all origins, headers, and methods
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder =>
+        {
+            builder.AllowAnyOrigin()  // Allows all origins
+                   .AllowAnyHeader()  // Allows all headers
+                   .AllowAnyMethod(); // Allows all methods (GET, POST, etc.)
+        });
+});
+
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<HrmsDatabaseContext>(options => options.UseSqlServer(configuration.GetConnectionString("Sql")));
@@ -49,6 +62,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowSpecificOrigin");
 
 app.UseHttpsRedirection();
 
