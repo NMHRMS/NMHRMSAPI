@@ -27,8 +27,6 @@ public partial class City
 
     public DateTime? UpdateDate { get; set; }
 
-    public virtual Company Company { get; set; } = null!;
-
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
     public virtual State State { get; set; } = null!;

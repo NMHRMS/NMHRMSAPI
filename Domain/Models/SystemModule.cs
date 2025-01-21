@@ -25,7 +25,7 @@ public partial class SystemModule
 
     public virtual Company Company { get; set; } = null!;
 
-    public virtual ICollection<CompanyProgram> CompanyPrograms { get; set; } = new List<CompanyProgram>();
-
     public virtual ICollection<ProfilePrivilege> ProfilePrivileges { get; set; } = new List<ProfilePrivilege>();
+
+    public virtual ICollection<SystemProgram> SystemPrograms { get; set; } = new List<SystemProgram>();
 }

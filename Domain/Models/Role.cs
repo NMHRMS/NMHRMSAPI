@@ -27,9 +27,17 @@ public partial class Role
 
     public DateTime? UpdateDate { get; set; }
 
+    public int SecurityLevel { get; set; }
+
     public virtual ICollection<AnnouncementDetail> AnnouncementDetails { get; set; } = new List<AnnouncementDetail>();
 
     public virtual Company Company { get; set; } = null!;
 
     public virtual ICollection<EmployeeProfile> EmployeeProfiles { get; set; } = new List<EmployeeProfile>();
+
+    public virtual ICollection<Role> InverseParentRole { get; set; } = new List<Role>();
+
+    public virtual Role? ParentRole { get; set; }
+
+    public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

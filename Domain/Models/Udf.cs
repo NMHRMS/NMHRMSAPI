@@ -33,5 +33,7 @@ public partial class Udf
 
     public virtual Company Company { get; set; } = null!;
 
-    public virtual SystemProgram Program { get; set; } = null!;
+    public virtual CompanyProgram Program { get; set; } = null!;
+
+    public virtual ICollection<Udfdatum> Udfdata { get; set; } = new List<Udfdatum>();
 }

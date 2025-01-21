@@ -35,30 +35,28 @@ namespace Application.Services.Auth
         #region Puublic Methods
         public void SignUp(SignUpDto signUpDto)
         {
-            var isDuplicate = CheckDuplicate(signUpDto);
-
-            if (isDuplicate)
-                throw new ArgumentException("Company Already Exists");
+            if (IsDuplicateEmail(signUpDto.EmailID))
+                throw new ArgumentException("Email Id Already Exists");
 
             var currentDate = DateTime.Now;
             var companyDetails = mapper.Map<Company>(signUpDto);
             companyDetails.CreateDate = currentDate;
             repository.Add(companyDetails);
 
-            var profileDetails = new Domain.Models.Profile();
-            profileDetails.Profile1 = ProfileTypes.Admin.ToString();
-            profileDetails.IsAdmin = true;
-            profileDetails.CreateDate = currentDate;
-            profileDetails.CompanyId = companyDetails.CompanyId;
-            profileDetails.CreateLoginId = 0;
-            repository.Add(profileDetails);
+            var roleDetails = new Domain.Models.Role();
+            roleDetails.Role1 = ProfileTypes.Admin.ToString();
+            roleDetails.CreateDate = currentDate;
+            roleDetails.CompanyId = companyDetails.CompanyId;
+            roleDetails.CreareLoginId = 0;
+            repository.Add(roleDetails);
 
             var userDetails = mapper.Map<User>(signUpDto);
             userDetails.CompanyId = companyDetails.CompanyId;
             userDetails.CreateDate = currentDate;
-            userDetails.ProfileId = profileDetails.ProfileId;
+            userDetails.RoleId = roleDetails.RoleId;
+            userDetails.IsActive = true;
             userDetails.CreateLoginId = 0;
-            //userDetails.Password = passwordHelper.HashPassword(signUpDto.Password);
+            userDetails.Password = signUpDto.Password;  //passwordHelper.HashPassword(signUpDto.Password);
             repository.Add(userDetails);
 
 
@@ -67,15 +65,22 @@ namespace Application.Services.Auth
 
         public object Login(LoginDto loginDto)
         {
+            var usersCount = repository.Get<User>(x => x.MobileNo == loginDto.MobileNo).Count();
+
+            if (usersCount > 0)
+            {
+
+            }
+
             var user = repository.Get<User>(x => x.Login == loginDto.MobileNo && x.Password == loginDto.Password && x.IsActive && !x.IsDeleted)
-                .Include(x => x.Profile).FirstOrDefault();
+                .Include(x => x.Role).FirstOrDefault();
 
             if (user != null)
             {
                 var jwtToken = GenerateJwtToken(user);
                 var userDetails = mapper.Map<UserDto>(user);
-                var profileDetails = mapper.Map<ProfileDto>(user.Profile);
-                return new { UserDetails = userDetails, ProfileDetails = profileDetails, Token = jwtToken };
+                var RoleDetails = mapper.Map<RoleDto>(user.Role);
+                return new { UserDetails = userDetails, RoleDetails = RoleDetails, Token = jwtToken };
             }
 
             throw new ArgumentException("Invalid username or password");
@@ -83,9 +88,9 @@ namespace Application.Services.Auth
         #endregion
 
         #region Private Methods
-        private static bool CheckDuplicate(SignUpDto signUpDto)
+        private bool IsDuplicateEmail(string emailId)
         {
-            return false;
+            return repository.Any<User>(x => x.EmailId == emailId);
         }
 
         private string GenerateJwtToken(User user)
@@ -96,7 +101,7 @@ namespace Application.Services.Auth
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Email, user.EmailId),
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-                new Claim(ClaimTypes.Role, user.Profile.Profile1)
+                new Claim(ClaimTypes.Role, user.Role.Role1)
             };
 
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["AppSettings:JwtSecret"]));

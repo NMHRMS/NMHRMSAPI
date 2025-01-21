@@ -17,9 +17,9 @@ public partial class User
 
     public string Password { get; set; } = null!;
 
-    public int ProfileId { get; set; }
+    public int? ProfileId { get; set; }
 
-    public string MobileNo { get; set; } = null!;
+    public string? MobileNo { get; set; }
 
     public string EmailId { get; set; } = null!;
 
@@ -37,9 +37,11 @@ public partial class User
 
     public DateTime? UpdateDate { get; set; }
 
+    public int RoleId { get; set; }
+
     public virtual Company Company { get; set; } = null!;
 
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
-    public virtual Profile Profile { get; set; } = null!;
+    public virtual Role Role { get; set; } = null!;
 }

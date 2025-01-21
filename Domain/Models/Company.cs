@@ -7,6 +7,10 @@ public partial class Company
 {
     public int CompanyId { get; set; }
 
+    public int? CompanySectorD { get; set; }
+
+    public int? CompanyTypeId { get; set; }
+
     public string Name { get; set; } = null!;
 
     public string? ShortName { get; set; }
@@ -71,9 +75,11 @@ public partial class Company
 
     public virtual ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
 
-    public virtual ICollection<City> Cities { get; set; } = new List<City>();
-
     public virtual ICollection<CompanyProgram> CompanyPrograms { get; set; } = new List<CompanyProgram>();
+
+    public virtual CompanySector? CompanySectorDNavigation { get; set; }
+
+    public virtual CompanyType? CompanyType { get; set; }
 
     public virtual ICollection<ContractType> ContractTypes { get; set; } = new List<ContractType>();
 

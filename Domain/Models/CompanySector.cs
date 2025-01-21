@@ -3,13 +3,15 @@ using System.Collections.Generic;
 
 namespace Domain.Models;
 
-public partial class CompanyModule
+public partial class CompanySector
 {
-    public int ModuleId { get; set; }
+    public int CompanySectorId { get; set; }
 
-    public string ModuleName { get; set; } = null!;
+    public string Name { get; set; } = null!;
 
-    public string SequenceNo { get; set; } = null!;
+    public string ShortName { get; set; } = null!;
+
+    public bool IsDeleted { get; set; }
 
     public bool IsActive { get; set; }
 
@@ -21,5 +23,5 @@ public partial class CompanyModule
 
     public DateTime? UpdateDate { get; set; }
 
-    public virtual ICollection<CompanyProgram> CompanyPrograms { get; set; } = new List<CompanyProgram>();
+    public virtual ICollection<Company> Companies { get; set; } = new List<Company>();
 }

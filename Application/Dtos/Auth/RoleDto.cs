@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace Application.Dtos.Auth
 {
-    public class ProfileDto
+    public class RoleDto
     {
-        public int ProfileId { get; set; }
+        public int RoleId { get; set; }
 
-        public string Profile1 { get; set; } = null!;
-
-        public bool IsAdmin { get; set; }
+        public string Role1 { get; set; } = null!;
     }
 }

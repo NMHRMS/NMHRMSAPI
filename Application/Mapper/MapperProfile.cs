@@ -11,16 +11,16 @@ namespace Application.Mapper
 {
     public class MapperProfile : AutoMapper.Profile
     {
-        public MapperProfile() 
+        public MapperProfile()
         {
             CreateMap<Company, SignUpDto>().ReverseMap();
-            CreateMap<Domain.Models.Profile, SignUpDto>().ReverseMap();
+            CreateMap<Role, SignUpDto>().ReverseMap();
             CreateMap<User, SignUpDto>()
-                .ForMember(t=> t.Name, (o) => o.MapFrom(s=> s.FirstName))
-                .ForMember(t=> t.MobileNo, (o) => o.MapFrom(s=> s.Login))
+                .ForMember(t => t.Name, (o) => o.MapFrom(s => s.FirstName))
+                .ForMember(t => t.MobileNo, (o) => o.MapFrom(s => s.Login))
                 .ReverseMap();
             CreateMap<User, UserDto>().ReverseMap();
-            CreateMap<Domain.Models.Profile, ProfileDto>().ReverseMap();
+            CreateMap<Role, RoleDto>().ReverseMap();
         }
     }
 }

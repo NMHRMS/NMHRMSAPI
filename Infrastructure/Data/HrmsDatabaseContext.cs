@@ -46,6 +46,10 @@ public partial class HrmsDatabaseContext : DbContext
 
     public virtual DbSet<CompanyProgram> CompanyPrograms { get; set; }
 
+    public virtual DbSet<CompanySector> CompanySectors { get; set; }
+
+    public virtual DbSet<CompanyType> CompanyTypes { get; set; }
+
     public virtual DbSet<ContractType> ContractTypes { get; set; }
 
     public virtual DbSet<Country> Countries { get; set; }
@@ -580,11 +584,6 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.UpdateDate).HasColumnType("datetime");
             entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
 
-            entity.HasOne(d => d.Company).WithMany(p => p.Cities)
-                .HasForeignKey(d => d.CompanyId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Cities_Companies");
-
             entity.HasOne(d => d.State).WithMany(p => p.Cities)
                 .HasForeignKey(d => d.StateId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -600,6 +599,7 @@ public partial class HrmsDatabaseContext : DbContext
             entity.Property(e => e.AddressLine2).HasMaxLength(100);
             entity.Property(e => e.AddressLine3).HasMaxLength(100);
             entity.Property(e => e.City).HasMaxLength(50);
+            entity.Property(e => e.CompanyTypeId).HasColumnName("CompanyTypeID");
             entity.Property(e => e.CountryId).HasColumnName("CountryID");
             entity.Property(e => e.CreateDate)
                 .HasDefaultValueSql("(getdate())")
@@ -626,6 +626,14 @@ public partial class HrmsDatabaseContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("URL");
             entity.Property(e => e.Vision).IsUnicode(false);
+
+            entity.HasOne(d => d.CompanySectorDNavigation).WithMany(p => p.Companies)
+                .HasForeignKey(d => d.CompanySectorD)
+                .HasConstraintName("FK_Companies_CompanySectors");
+
+            entity.HasOne(d => d.CompanyType).WithMany(p => p.Companies)
+                .HasForeignKey(d => d.CompanyTypeId)
+                .HasConstraintName("FK_Companies_CompanyTypes");
 
             entity.HasOne(d => d.Country).WithMany(p => p.Companies)
                 .HasForeignKey(d => d.CountryId)
@@ -679,7 +687,39 @@ public partial class HrmsDatabaseContext : DbContext
             entity.HasOne(d => d.Module).WithMany(p => p.CompanyPrograms)
                 .HasForeignKey(d => d.ModuleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_CompanyPrograms_SystemModules");
+                .HasConstraintName("FK_CompanyPrograms_CompanyModules");
+        });
+
+        modelBuilder.Entity<CompanySector>(entity =>
+        {
+            entity.HasKey(e => e.CompanySectorId).HasName("PK__CompanyS__9EE156BE14DD6F3D");
+
+            entity.Property(e => e.CompanySectorId).HasColumnName("CompanySectorID");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.CreateLoginId).HasColumnName("CreateLoginID");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.Name).HasMaxLength(200);
+            entity.Property(e => e.ShortName).HasMaxLength(50);
+            entity.Property(e => e.UpdateDate).HasColumnType("datetime");
+            entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
+        });
+
+        modelBuilder.Entity<CompanyType>(entity =>
+        {
+            entity.HasKey(e => e.CompanyTypeId).HasName("PK__CompanyT__06019938D4B306A0");
+
+            entity.Property(e => e.CompanyTypeId).HasColumnName("CompanyTypeID");
+            entity.Property(e => e.CreateDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.CreateLoginId).HasColumnName("CreateLoginID");
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.Name).HasMaxLength(200);
+            entity.Property(e => e.ShortName).HasMaxLength(50);
+            entity.Property(e => e.UpdateDate).HasColumnType("datetime");
+            entity.Property(e => e.UpdateLoginId).HasColumnName("UpdateLoginID");
         });
 
         modelBuilder.Entity<ContractType>(entity =>
@@ -2141,7 +2181,7 @@ public partial class HrmsDatabaseContext : DbContext
             entity.HasOne(d => d.Program).WithMany(p => p.ProfilePrivileges)
                 .HasForeignKey(d => d.ProgramId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ProfilePrivileges_CompanyPrograms");
+                .HasConstraintName("FK_ProfilePrivileges_SystemPrograms");
         });
 
         modelBuilder.Entity<Qualification>(entity =>
@@ -2302,6 +2342,10 @@ public partial class HrmsDatabaseContext : DbContext
                 .HasForeignKey(d => d.CompanyId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Roles_Companies");
+
+            entity.HasOne(d => d.ParentRole).WithMany(p => p.InverseParentRole)
+                .HasForeignKey(d => d.ParentRoleId)
+                .HasConstraintName("FK_Roles_Roles");
         });
 
         modelBuilder.Entity<Roster>(entity =>
@@ -2719,7 +2763,7 @@ public partial class HrmsDatabaseContext : DbContext
             entity.HasOne(d => d.Module).WithMany(p => p.SystemPrograms)
                 .HasForeignKey(d => d.ModuleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_SystemPrograms_CompanyModules");
+                .HasConstraintName("FK_SystemPrograms_SystemModules");
         });
 
         modelBuilder.Entity<Domain.Models.Task>(entity =>
@@ -3019,7 +3063,7 @@ public partial class HrmsDatabaseContext : DbContext
             entity.HasOne(d => d.Program).WithMany(p => p.Udfs)
                 .HasForeignKey(d => d.ProgramId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_UDF_SystemPrograms");
+                .HasConstraintName("FK_UDF_CompanyPrograms");
         });
 
         modelBuilder.Entity<Udfdatum>(entity =>
@@ -3054,6 +3098,16 @@ public partial class HrmsDatabaseContext : DbContext
                 .HasForeignKey(d => d.CompanyId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_UDFData_Companies");
+
+            entity.HasOne(d => d.Program).WithMany(p => p.Udfdata)
+                .HasForeignKey(d => d.ProgramId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_UDFData_CompanyPrograms");
+
+            entity.HasOne(d => d.Udf).WithMany(p => p.Udfdata)
+                .HasForeignKey(d => d.Udfid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_UDFData_UDF");
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -3085,10 +3139,10 @@ public partial class HrmsDatabaseContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Users_Companies");
 
-            entity.HasOne(d => d.Profile).WithMany(p => p.Users)
-                .HasForeignKey(d => d.ProfileId)
+            entity.HasOne(d => d.Role).WithMany(p => p.Users)
+                .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Users_Profiles");
+                .HasConstraintName("FK_Users_Roles");
         });
 
         modelBuilder.Entity<WeeklyOffTemplate>(entity =>

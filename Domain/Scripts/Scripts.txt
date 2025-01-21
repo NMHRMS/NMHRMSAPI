@@ -1,0 +1,3 @@
+﻿
+//Scaffold Script
+Scaffold-DbContext "Name=Sql" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -ContextDir C:\Users\mayur\source\repos\NMHRMSAPI\Infrastructure\Data -Context HrmsDatabaseContext -ContextNamespace Infrastructure.Data -f

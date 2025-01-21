@@ -41,5 +41,5 @@ public partial class ProfilePrivilege
 
     public virtual Profile Profile { get; set; } = null!;
 
-    public virtual CompanyProgram Program { get; set; } = null!;
+    public virtual SystemProgram Program { get; set; } = null!;
 }

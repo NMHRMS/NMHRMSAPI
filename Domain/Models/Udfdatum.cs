@@ -36,4 +36,8 @@ public partial class Udfdatum
     public DateTime? UpdateDate { get; set; }
 
     public virtual Company Company { get; set; } = null!;
+
+    public virtual CompanyProgram Program { get; set; } = null!;
+
+    public virtual Udf Udf { get; set; } = null!;
 }

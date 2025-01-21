@@ -23,7 +23,7 @@ public partial class SystemProgram
 
     public DateTime? UpdateDate { get; set; }
 
-    public virtual CompanyModule Module { get; set; } = null!;
+    public virtual SystemModule Module { get; set; } = null!;
 
-    public virtual ICollection<Udf> Udfs { get; set; } = new List<Udf>();
+    public virtual ICollection<ProfilePrivilege> ProfilePrivileges { get; set; } = new List<ProfilePrivilege>();
 }

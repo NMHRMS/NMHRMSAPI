@@ -27,7 +27,9 @@ public partial class CompanyProgram
 
     public virtual Company Company { get; set; } = null!;
 
-    public virtual SystemModule Module { get; set; } = null!;
+    public virtual CompanyModule Module { get; set; } = null!;
 
-    public virtual ICollection<ProfilePrivilege> ProfilePrivileges { get; set; } = new List<ProfilePrivilege>();
+    public virtual ICollection<Udfdatum> Udfdata { get; set; } = new List<Udfdatum>();
+
+    public virtual ICollection<Udf> Udfs { get; set; } = new List<Udf>();
 }
