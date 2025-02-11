@@ -65,10 +65,13 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors("AllowSpecificOrigin"); 
+
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.UseStaticFiles();
+
 app.MapFallbackToFile("index.html");
 
 app.MapControllers();
