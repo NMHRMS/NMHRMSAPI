@@ -33,7 +33,7 @@ import "./Mainsidebar.css";
 
 const { Header, Sider, Content } = Layout;
 
-function Mainsidebar() {
+function MainSidebar() {
   const [collapsed, setCollapsed] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -43,31 +43,31 @@ function Mainsidebar() {
   // Sidebar menu items
   const sidebarItems = [
     { label: "Dashboard", icon: <DashboardOutlined />, path: "#" },
-    { label: "Masters", icon: <TableOutlined />, path: "/hrms/masters" },
-    { label: "Attendance", icon: <HeartOutlined />, path: "/attendance" },
-    { label: "Payroll", icon: <CommentOutlined />, path: "/payroll" },
+    { label: "Masters", icon: <TableOutlined />, path: "#" },
+    { label: "Attendance", icon: <HeartOutlined />, path: "#" },
+    { label: "Payroll", icon: <CommentOutlined />, path: "#" },
     {
       label: "All Employee",
       icon: <UnorderedListOutlined />,
-      path: "/employees",
+      path: "#",
     },
     {
       label: "On Boarding",
       icon: <UnorderedListOutlined />,
       path: "/onboarding",
     },
-    { label: "Requests", icon: <HddOutlined />, path: "/requests" },
-    { label: "Finance", icon: <TransactionOutlined />, path: "/finance" },
-    { label: "Calendar", icon: <CalendarOutlined />, path: "/calendar" },
-    { label: "Bulk Upload", icon: <UploadOutlined />, path: "/bulk-upload" },
-    { label: "Reports", icon: <FileTextOutlined />, path: "/reports" },
-    { label: "Team", icon: <TeamOutlined />, path: "/team" },
-    { label: "Settings", icon: <SettingOutlined />, path: "/settings" },
+    { label: "Requests", icon: <HddOutlined />, path: "#" },
+    { label: "Finance", icon: <TransactionOutlined />, path: "#" },
+    { label: "Calendar", icon: <CalendarOutlined />, path: "#" },
+    { label: "Bulk Upload", icon: <UploadOutlined />, path: "#" },
+    { label: "Reports", icon: <FileTextOutlined />, path: "#" },
+    { label: "Team", icon: <TeamOutlined />, path: "#" },
+    { label: "Settings", icon: <SettingOutlined />, path: "#" },
     {
       label: "Logout",
       icon: <PoweroffOutlined />,
       danger: true,
-      path: "/logout",
+      path: "#",
     },
   ];
 
@@ -200,5 +200,5 @@ function Mainsidebar() {
   );
 }
 
-export default Mainsidebar;
+export default MainSidebar;
 

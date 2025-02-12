@@ -2,6 +2,7 @@ using Application.AppStart;
 using Application.Mapper;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -47,7 +48,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization(options =>
 {
     // Set a default authorization policy for all controllers
-    options.FallbackPolicy = options.DefaultPolicy;
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()  // or RequireRole("admin") if you have roles
+        .Build();
 });
 
 
