@@ -10,6 +10,7 @@ using System.Diagnostics;
 
 namespace NMHRMSAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeeController : ControllerBase

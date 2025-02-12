@@ -45,13 +45,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddAuthorization(options =>
-{
-    // Set a default authorization policy for all controllers
-    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-        .RequireAuthenticatedUser()  // or RequireRole("admin") if you have roles
-        .Build();
-});
+//builder.Services.AddAuthorization(options =>
+//{
+//    // Set a default authorization policy for all controllers
+//    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+//        .RequireAuthenticatedUser()  // or RequireRole("admin") if you have roles
+//        .Build();
+//});
 
 
 builder.Services.AddServices();
