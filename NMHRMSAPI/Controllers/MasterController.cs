@@ -45,6 +45,7 @@ namespace NMHRMSAPI.Controllers
 
         [HttpGet]
         [Route("GetCountries")]
+        [AllowAnonymous]
         public IActionResult GetCountries()
         {
             try

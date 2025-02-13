@@ -1,47 +1,48 @@
-import React, { useState } from "react";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { EyeOutlined, EyeInvisibleOutlined, AlignRightOutlined } from "@ant-design/icons";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import Input from "../components/Input";
-import axios from "axios";
 import { Link } from "react-router-dom";
-// import Api from "../services/Api";
-import { postRequest } from "../services/Api";
+import { getRequest, postRequest } from "../services/Api";
 
 function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [country, setCountry] = useState("in");
-  const [number, setNumber] = useState("");
+  const [countries, setCountries] = useState([]);
   const [formData, setFormData] = useState({
     companyName: "",
     firstName: "",
     lastName: "",
     email: "",
-    mobileNo:"",
+    mobileNo: "",
     password: "",
+
     confirmPassword: "",
-    selectedCountry: "", // For the Country field
+    selectedCountry: "",
   });
 
   const navigate = useNavigate();
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevState) => !prevState);
-  };
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await getRequest("/Master/GetCountries");
+        console.log(response.data);
+        
+        setCountries(response.data);
+      } catch (error) {
+        console.error("Error fetching countries:", error);
+      }
+    };
+    fetchCountries();
+  }, []);
 
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword((prevState) => !prevState);
-  };
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
 
-  // Update form data when input changes
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [id]: value,
-    }));
+    setFormData((prevData) => ({ ...prevData, [id]: value }));
   };
 
   const signupbutton = async (e) => {
@@ -62,7 +63,7 @@ function Signup() {
       password: formData.password,
       confirmPassword: formData.confirmPassword,
       mobileNo: formData.mobileNo,
-      countryId: 4,
+      countryId: formData.selectedCountry,
 
 
     };
@@ -75,13 +76,14 @@ function Signup() {
       console.log("Signup successful:", response.data);
       alert("sucessfully ")
       // Navigate to business details page
-      navigate("/signin");
+      // navigate("/signin");
     } catch (error) {
       console.error("Signup failed:", error);
       alert("An error occurred during signup.");
+      
     }
   };
-
+  
   return (
     <div className="container-fluid min-vh-100 bg-primary d-flex align-items-center">
       <div className="row w-100">
@@ -93,11 +95,11 @@ function Signup() {
         </div>
 
         <div className="col-md-6">
-          <div className={`card p-4`} style={{ borderRadius: "25px" }}>
+          <div className={"card p-4"} style={{ borderRadius: "25px" }}>
             <h2 className="text-start ps-4">Sign up</h2>
             <form className="m-2" onSubmit={signupbutton}>
               <a>Create an account or <Link to={'/signin'}>signIn</Link></a>
-              {/* Company Name */}
+              {/* {/ Company Name /} */}
               <div className="form-group mb-3">
                 <Input
                   id="companyName"
@@ -109,7 +111,7 @@ function Signup() {
                 />
               </div>
 
-              {/* User First and Last Name */}
+              {/* {/ User First and Last Name /} */}
               <div className="form-group row">
                 <div className="col-md-6">
                   <Input
@@ -133,7 +135,7 @@ function Signup() {
                 </div>
               </div>
 
-              {/* Mobile Number */}
+              {/* {/ Mobile Number /} */}
               <div className="form-group row">
                 {/* <div className="col-md-6">
                   <label style={{ marginLeft: "14px", color: "grey" }}>
@@ -177,7 +179,7 @@ function Signup() {
                   />
                 </div>
 
-                {/* Email */}
+                {/* {/ Email /} */}
                 <div className="col-md-6">
                   <Input
                     id="email"
@@ -190,25 +192,19 @@ function Signup() {
                 </div>
               </div>
 
-              {/* Country */}
+              {/* {/ Country /} */}
               <div className="form-group mb-3">
                 <label style={{ color: "grey" }}>Country</label>
-                <select
-                  id="selectedCountry"
-                  className="form-control rounded-pill"
-                  onChange={handleInputChange}
-                  value={formData.selectedCountry}
-                  style={{ backgroundColor: "#f5f6fa" }}
-                >
-                  <option value="">Select Country</option>
-                  <option value="India">India</option>
-                  <option value="United States">United States</option>
-                  <option value="United Kingdom">United Kingdom</option>
-                  <option value="Australia">Australia</option>
+                <select id="selectedCountry" className="form-control rounded-pill" onChange={handleInputChange} value={formData.selectedCountry}>
+                  <option value=""></option>
+                  {countries.map((country) => (
+                    <option key={country.id} value={country.countryId} >{country.name}</option>
+                  ))}
                 </select>
               </div>
 
-              {/* Password and Confirm Password */}
+
+              {/* {/ Password and Confirm Password /} */}
               <div className="form-group row">
                 <div className="col-md-6 position-relative">
                   <label style={{ marginLeft: "14px", color: "grey" }}>
@@ -217,7 +213,7 @@ function Signup() {
                   <input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    className={`form-control rounded-pill mb-3`}
+                    className={"form-control rounded-pill mb-3"}
                     style={{ backgroundColor: "#f5f6fa" }}
                     placeholder="Enter password"
                     onChange={handleInputChange}
@@ -225,7 +221,7 @@ function Signup() {
                   />
                   <span
                     style={{ position: "absolute", top: "30px" }}
-                    className={`end-0 me-4`}
+                    className={"end-0 me-4"}
                     onClick={togglePasswordVisibility}
                   >
                     {showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
@@ -238,7 +234,7 @@ function Signup() {
                   <input
                     id="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
-                    className={`form-control rounded-pill mb-3`}
+                    className={"form-control rounded-pill mb-3"}
                     style={{ backgroundColor: "#f5f6fa" }}
                     placeholder="Confirm password"
                     onChange={handleInputChange}
@@ -246,7 +242,7 @@ function Signup() {
                   />
                   <span
                     style={{ position: "absolute", top: "30px" }}
-                    className={`end-0 me-4`}
+                    className={"end-0 me-4"}
                     onClick={toggleConfirmPasswordVisibility}
                   >
                     {showConfirmPassword ? (
@@ -258,7 +254,7 @@ function Signup() {
                 </div>
               </div>
 
-              {/* Terms and Conditions */}
+              {/* {/ Terms and Conditions /} */}
               <div className="form-check my-3">
                 <input
                   type="checkbox"
@@ -273,11 +269,11 @@ function Signup() {
                 </label>
               </div>
 
-              {/* Sign Up Button */}
+              {/* {/ Sign Up Button /} */}
               <div className="d-block text-center">
                 <button
                   type="submit"
-                  className={`btn btn-primary rounded-pill my-3 w-50`}
+                  className={"btn btn-primary rounded-pill my-3 w-50"}
                 >
                   Sign Up
                 </button>
