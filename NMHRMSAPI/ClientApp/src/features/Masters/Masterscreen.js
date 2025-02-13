@@ -37,7 +37,7 @@ const Masterscreen = () => {
       label: "Branches",
     },
     {
-      path: "#",
+      path: "/hrms/addshift",
       icon: <ClockCircleOutlined style={{ fontSize: "22px", color: "blue" }} />,
       label: "Work Shifts",
     },
