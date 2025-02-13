@@ -271,12 +271,12 @@ function Signup() {
 
               {/* {/ Sign Up Button /} */}
               <div className="d-block text-center">
-                <button
+              <Link to="/signin"
                   type="submit"
                   className={"btn btn-primary rounded-pill my-3 w-50"}
                 >
                   Sign Up
-                </button>
+                </Link>
               </div>
             </form>
           </div>

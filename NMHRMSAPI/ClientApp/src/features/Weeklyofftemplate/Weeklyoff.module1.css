@@ -1,0 +1,133 @@
+.weekly-off-template {
+    width: 60%;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    padding: 40px;
+    background-color: white;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    /* font-weight: bold; */
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  input[type="text"] {
+    width: 50%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 30px;
+  }
+  
+  .general-weekly-offs {
+    margin-bottom: 20px;
+  }
+  
+  .checkbox-group {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+  }
+  
+  .checkbox-group div {
+    display: flex;
+    align-items: center;
+  }
+  
+  .alternating-weekly-offs {
+    margin-bottom: 20px;
+  }
+  
+  .day-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .day-row div {
+    width: 100px;
+  }
+  
+  .toggle-switch {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+  
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 20px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #468EF7;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(14px);
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .confirm-btn,
+  .next-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .confirm-btn {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .next-btn {
+    background-color: #468EF7;
+    color: white;
+  }

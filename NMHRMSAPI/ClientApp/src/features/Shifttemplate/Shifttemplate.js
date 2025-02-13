@@ -246,15 +246,15 @@ function Shifttemplate() {
                   />
             </div>
             <div className="col-md-8">
-            <Selectcom
-                    id="shift_name"
-                    label="Name"
-                    options={shifttype}
-                    value={shifttype.id}
-                    onChange={handleInputChange}
-                    placeholder="Select"
-                    style={{ backgroundColor: "#f5f6fa" }}
-                  />
+              <Inputcom
+                id='shift_name'
+                label="Name"
+                type="text"
+                placeholder='Enter Name'
+                value={shiftData.shift_name}
+                onChange={handleInputChange}
+                style={{ backgroundColor: "#f5f6fa" }}
+              />
             </div>
             <div className="col-md-4 ">
               <Timecom
@@ -316,16 +316,15 @@ function Shifttemplate() {
                 style={{ backgroundColor: "#f5f6fa" }}
               />
             </div>
-            <div className="col-md-4 d-flex align-items-end w-auto ms-auto">
+            <div className="col-md-4 d-flex align-items-end">
               <Buttonadd label={shiftData.id ? "Update Shift" : "Add Shift"} onClick={addshift}/>
             </div>
           </div>
 
-          {/* {/ Shift List /} */}
+          {/* Shift List */}
           <h5>Shift List</h5>
           <Tablecom headers={headers} data={getshifts} deletedata={deletedata} editdata={editdata} keys={keys}  />
         </div>
-        
       </div>
     </div>
   );

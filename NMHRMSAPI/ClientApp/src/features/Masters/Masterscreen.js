@@ -17,6 +17,7 @@ import {
   BankOutlined,
   ClusterOutlined,
   CoffeeOutlined,
+  GroupOutlined,
 } from "@ant-design/icons";
 
 const Masterscreen = () => {
@@ -32,7 +33,7 @@ const Masterscreen = () => {
             label: "User Management",
       },
     {
-      path: "#",
+      path: "/hrms/branches",
       icon: <ClusterOutlined style={{ fontSize: "22px", color: "blue" }} />,
       label: "Branches",
     },
@@ -42,32 +43,32 @@ const Masterscreen = () => {
       label: "Work Shifts",
     },
     {
-      path: "#",
+      path: "/hrms/division",
       icon: <PartitionOutlined style={{ fontSize: "22px", color: "blue" }} />,
       label: "Divisions",
     },
     {
-      path: "#",
+      path: "/hrms/department",
       icon: <AppstoreOutlined style={{ fontSize: "22px", color: "blue" }} />,
       label: "Departments",
     },
     {
-      path: "#",
+      path: "/hrms/designation",
       icon: <IdcardOutlined style={{ fontSize: "22px", color: "blue" }} />,
       label: "Designations",
     },
     {
-      path: "#",
+      path: "/hrms/holidaytemplate",
       icon: <CoffeeOutlined style={{ fontSize: "22px", color: "blue" }} />,
       label: "Holidays",
     },
     {
-      path: "#",
+      path: "/hrms/weeklyoff",
       icon: <CalendarOutlined style={{ fontSize: "22px", color: "blue" }} />,
       label: "Weekly off",
     },
     {
-      path: "#",
+      path: "/hrms/salaryhead",
       icon: <WalletOutlined style={{ fontSize: "22px", color: "blue" }} />,
       label: "Salary Heads",
     },
@@ -77,14 +78,14 @@ const Masterscreen = () => {
       label: "Finance",
     },
     {
-      path: "#",
+      path: "/hrms/employescategories",
       icon: (
         <UsergroupAddOutlined style={{ fontSize: "22px", color: "blue" }} />
       ),
       label: "Employee Master",
     },
     {
-      path: "#",
+      path: "/hrms/leavetemplate",
       icon: <RestOutlined style={{ fontSize: "22px", color: "blue" }} />,
       label: "Leaves",
     },
@@ -101,9 +102,14 @@ const Masterscreen = () => {
       label: "Expenses",
     },
     {
-      path: "#",
+      path: "/hrms/taxation",
       icon: <PercentageOutlined style={{ fontSize: "22px", color: "blue" }} />,
       label: "Taxation",
+    },
+    {
+      path: "/hrms/grade",
+      icon: <GroupOutlined style={{ fontSize: "22px", color: "blue" }} />,
+      label: "Grade",
     },
   ];
 

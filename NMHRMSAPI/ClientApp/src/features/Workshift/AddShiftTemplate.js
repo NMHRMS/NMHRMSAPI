@@ -112,7 +112,7 @@ function AddShifttemplate() {
     <div className="container mt-2">
       <ToastContainer />
       
-      {/* Tab Navigation */}
+      {/* {/ Tab Navigation /} */}
       <ul className="nav nav-tabs" role="tablist">
         <li className="nav-item" role="presentation">
           <button
@@ -134,9 +134,9 @@ function AddShifttemplate() {
         </li>
       </ul>
 
-      {/* Tab Content */}
+      {/* {/ Tab Content /} */}
       <div className="tab-content mt-4">
-        {/* Add Shift Tab Content */}
+        {/* {/ Add Shift Tab Content /} */}
         {selectedTab === "addShift" && (
           <div className="tab-pane fade show active" role="tabpanel">
             <div className="card mb-4" style={{ border: "none" }}>
@@ -144,7 +144,7 @@ function AddShifttemplate() {
                 <h5>{shiftData.id ? "Edit Shift" : "Create Shift"}</h5>
 
                 <div className="row mb-4 g-3">
-                  {/* Shift Name Input */}
+                  {/* {/ Shift Name Input /} */}
                   <div className="col-md-6">
                     <Inputcom
                       id="shift_name"
@@ -157,7 +157,7 @@ function AddShifttemplate() {
                     />
                   </div>
 
-                  {/* Net Working Hours Input */}
+                  {/* {/ Net Working Hours Input /} */}
                   <div className="col-md-6">
                     <Inputcom
                       id="net_working_hours"
@@ -170,7 +170,7 @@ function AddShifttemplate() {
                     />
                   </div>
 
-                  {/* Is Rotated Checkbox */}
+                  {/* {/ Is Rotated Checkbox /} */}
                   <div className="col-md-6 d-flex align-items-center">
                     <input
                       type="checkbox"
@@ -182,13 +182,13 @@ function AddShifttemplate() {
                     <label htmlFor="is_rotated" className="form-check-label">Is Rotated</label>
                   </div>
 
-                  {/* Submit Button */}
+                  {/* {/ Submit Button /} */}
                   <div className="col-md-6 d-flex align-items-end w-auto ms-auto">
                     <Buttonadd label={shiftData.id ? "Update Shift" : "Add Shift"} onClick={addShift} />
                   </div>
                 </div>
 
-                {/* Shift List Table */}
+                {/* {/ Shift List Table /} */}
                 <h5>Shift List</h5>
                 <Tablecom
                   headers={["SR.NO", "Shift Name", "Net Working Hours", "Is Rotated", "Actions"]}
@@ -202,10 +202,10 @@ function AddShifttemplate() {
           </div>
         )}
 
-        {/* Shift Details Tab Content */}
+        {/* {/ Shift Details Tab Content /} */}
         {selectedTab === "shiftDetails" && (
           <div className="tab-pane fade show active" role="tabpanel">
-            <Shifttemplate /> {/* Render the Shift Details Component */}
+            <Shifttemplate /> 
           </div>
         )}
 
