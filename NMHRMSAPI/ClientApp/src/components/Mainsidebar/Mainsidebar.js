@@ -143,7 +143,7 @@ function MainSidebar() {
                     </div>
 
                     <div>
-                        {/ Notification Bell /}
+                        {/*{/ Notification Bell /}*/}
                         <Badge
                             count={5}
                             offset={[3, 0]}
@@ -152,7 +152,7 @@ function MainSidebar() {
                             <BellOutlined style={{ fontSize: "20px" }} />
                         </Badge>
 
-                        {/ Language Dropdown /}
+                        {/*{/ Language Dropdown /}*/}
                         {/* <Dropdown menu={languageMenu}>
               <Button
                 type="text"
@@ -162,7 +162,7 @@ function MainSidebar() {
               </Button>
             </Dropdown> */}
 
-                        {/ Profile Dropdown /}
+                        {/*{/ Profile Dropdown /}*/}
                         {/* <Dropdown menu={profileMenu}>
               <Avatar
                 size="large"
@@ -182,7 +182,7 @@ function MainSidebar() {
                                         icon={<UserOutlined />}
                                         className="mainsidebar-navbar-profile"
                                     />
-                                    {/ <DownOutlined / > /}
+                                    {/*{/ <DownOutlined / > /}*/}
       </Space>
                             </a>
                         </Dropdown>
@@ -190,7 +190,7 @@ function MainSidebar() {
                 </div>
             </Header>
 
-            {/ Sidebar positioned below the Navbar /}
+            {/*{/ Sidebar positioned below the Navbar /}*/}
             <Layout style={{ scrollbarWidth: 'thin' }}>
                 <Sider
                     trigger={null}
@@ -219,7 +219,7 @@ function MainSidebar() {
                     />
                 </Sider>
 
-                {/ Main Content Area /}
+                {/*{/ Main Content Area /}*/}
                 <Content
                     className="mainsidebar-site-layout-content"
                     style={{
@@ -228,7 +228,7 @@ function MainSidebar() {
                         backgroundColor: "#f5f6fa",
                     }}
                 >
-                    {/ Breadcrumbs /}
+                    {/*{/ Breadcrumbs /}*/}
 
                     <div className="mainsidebar-content-wrapper">
                         <Outlet />
