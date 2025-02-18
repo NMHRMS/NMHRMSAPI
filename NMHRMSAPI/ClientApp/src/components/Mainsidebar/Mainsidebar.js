@@ -7,6 +7,7 @@ import {
   Badge,
   Dropdown,
   Avatar,
+  Space ,
   // Breadcrumb,
 } from "antd";
 import {
@@ -28,6 +29,8 @@ import {
   BellOutlined,
   GlobalOutlined,
   UserOutlined,
+  SmileOutlined,
+  DownOutlined
 } from "@ant-design/icons";
 import "./Mainsidebar.css";
 
@@ -39,6 +42,16 @@ function MainSidebar() {
   const [hovered, setHovered] = useState(false);
 
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    // token=localStorage.getItem('token')
+    const token = JSON.parse(localStorage.getItem('userDetails'));
+    console.log(token);
+    
+    if(!token){
+      navigate("/")
+    }
+  },[])
   // const location = useLocation();
   // Sidebar menu items
   const sidebarItems = [
@@ -72,16 +85,26 @@ function MainSidebar() {
   ];
 
   // Profile menu for dropdown
-  const profileMenu = (
-    <Menu
-      items={[
-        { label: "View Profile", key: "1" },
-        { label: "Settings", key: "2" },
-        { label: "Logout", key: "3" },
-      ]}
-    />
-  );
-
+  // const profileMenu = (
+  //   <Menu
+  //     items={[
+  //       { label: "View Profile", key: "1" },
+  //       { label: "Settings", key: "2" },
+  //       { label: "Logout", key: "3" },
+  //     ]}
+  //   />
+  // );
+  const items = [
+    {
+      key: '1',
+      label: (
+        <a target="_blank" rel="noopener noreferrer">
+          Logout
+        </a>
+      ),
+    },
+    
+  ];
   // Language dropdown menu
   const languageMenu = (
     <Menu
@@ -130,23 +153,39 @@ function MainSidebar() {
             </Badge>
 
             {/* Language Dropdown */}
-            <Dropdown menu={languageMenu}>
+            {/* <Dropdown menu={languageMenu}>
               <Button
                 type="text"
                 icon={<GlobalOutlined style={{ fontSize: "20px" }} />}
               >
                 Language
               </Button>
-            </Dropdown>
+            </Dropdown> */}
 
             {/* Profile Dropdown */}
-            <Dropdown menu={profileMenu}>
+            {/* <Dropdown menu={profileMenu}>
               <Avatar
                 size="large"
                 icon={<UserOutlined />}
                 className="mainsidebar-navbar-profile"
               />
-            </Dropdown>
+            </Dropdown> */}
+            <Dropdown
+    menu={{
+      items,
+    }}
+  >
+    <a onClick={(e) => e.preventDefault()}>
+      <Space>
+      <Avatar
+                size="large"
+                icon={<UserOutlined />}
+                className="mainsidebar-navbar-profile"
+              />
+        {/* <DownOutlined /> */}
+      </Space>
+    </a>
+  </Dropdown>
           </div>
         </div>
       </Header>
@@ -201,4 +240,3 @@ function MainSidebar() {
 }
 
 export default MainSidebar;
-

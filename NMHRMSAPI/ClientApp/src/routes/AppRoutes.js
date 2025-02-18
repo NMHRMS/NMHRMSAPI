@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import MainSidebar from '../components/MainSidebar/MainSidebar'
+import MainSidebar from '../components/Mainsidebar/Mainsidebar';
 import EmployeeList from '../features/Employee/EmployeeList';
 import Signup from '../pages/Signup';
 import Signin from '../pages/Signin';
@@ -26,7 +26,7 @@ const AppRoutes = () => {
         <Routes>
             <Route path="/" element={<Signup />} />
             <Route path="/signin" element={<Signin />} />
-            <Route path="/hrms" element={<MainSidebar />}>
+            <Route path="/hrms" element={ <MainSidebar />}>
                 <Route path="masterscreen" element={<Masterscreen />} />
                 <Route path='usermanagement' element={<UserManagement />} />
                 <Route path='branches' element={<BranchDetails />} />

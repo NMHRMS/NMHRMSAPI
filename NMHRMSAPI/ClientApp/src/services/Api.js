@@ -1,7 +1,8 @@
 import axios from "axios"
 
 const Api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || "https://localhost:7111/api",
+  // baseURL: process.env.REACT_APP_API_URL || "https://localhost:7111/api",
+  baseURL: process.env.REACT_APP_API_URL || "https://hrmstesting-001-site1.qtempurl.com/api",
   headers: {
     "Content-Type": "application/json",
   },
