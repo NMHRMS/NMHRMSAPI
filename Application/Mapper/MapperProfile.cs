@@ -30,6 +30,11 @@ namespace Application.Mapper
             CreateMap<City, CitiesDto>().ReverseMap();
             CreateMap<Grade, CompanyGradeDto>().ReverseMap()
                 .ForMember(t => t.Grade1, (o) => o.MapFrom(s => s.Grade));
+            CreateMap<Location, LocationDto>().ReverseMap();
+            CreateMap<Title, TitleDto>().ReverseMap();
+            CreateMap<BloodGroup, BloodGroupDto>().ReverseMap();
+            CreateMap<Qualification, QualificationDto>().ReverseMap();
+            CreateMap<ContractType, ContractTypeDto>().ReverseMap();
         }
     }
 }
